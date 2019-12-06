@@ -1,0 +1,5 @@
+const Dialog = () => {
+
+};
+
+export { Dialog };

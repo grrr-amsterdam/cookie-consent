@@ -1,0 +1,23 @@
+{
+  "extends": "airbnb-base",
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "rules": {
+    "import/extensions": ["error", "always", { "js": "never", "mjs": "never" }],
+    "comma-dangle": ["error", {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never",
+    }],
+    "quote-props": ["error", "consistent"],
+    "arrow-parens": "off",
+    "no-confusing-arrow": "off",
+    "no-nested-ternary": "off",
+    "implicit-arrow-linebreak": "off",
+    "arrow-body-style": "off",
+  }
+}
