@@ -1,10 +1,10 @@
 import { htmlToElement } from '@grrr/utils';
-import { PREFIX } from './constants';
 import EventDispatcher from './event-dispatcher';
 
-const DialogTabList = ({ prefix, cookieTypes, ariaLabels }) => {
+const DialogTabList = config => {
 
   const events = new EventDispatcher();
+  const prefix = config.get('prefix');
 
   /**
    * @TODO render with preferences when opened that way...
@@ -24,7 +24,7 @@ const DialogTabList = ({ prefix, cookieTypes, ariaLabels }) => {
             href="#${prefix}-tabpanel-${index}"
             aria-controls="${prefix}-tabpanel-${index}"
             aria-selected="false"
-            aria-label="${ariaLabels.tabToggle}">
+            aria-label="${config.get('ariaLabels.tabToggle')}">
             <svg width="28" height="18" viewBox="0 0 28 18" xmlns="http://www.w3.org/2000/svg"><g stroke-width="2" fill="none" fill-rule="evenodd"><path d="M1 9h24" stroke-linecap="square"/><path d="M18 1l8 8-8 7.415"/></g></svg>
           </a>
         </header>
@@ -41,8 +41,9 @@ const DialogTabList = ({ prefix, cookieTypes, ariaLabels }) => {
   };
 
   const renderTabList = () => {
+    const cookieTypes = config.get('cookieTypes', true) || [];
     return `
-      <ul class="${prefix}__tablist" role="tablist" aria-label="${ariaLabels.tabs}">
+      <ul class="${prefix}__tablist" role="tablist" aria-label="${config.get('ariaLabels.tabList')}">
         ${cookieTypes.map(renderTab).join('')}
       </ul>
     `;

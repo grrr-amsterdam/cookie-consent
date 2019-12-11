@@ -1,8 +1,9 @@
 import { parseJson } from '@grrr/utils';
-import { PREFIX, STORAGE_KEY_SUFFIX } from './constants';
 
-const Preferences = (storage, prefix = PREFIX) => {
-  const key = `${prefix}-${STORAGE_KEY_SUFFIX}`;
+const KEY_SUFFIX = 'preferences';
+
+const Preferences = ({ storage, prefix }) => {
+  const key = `${prefix}-${KEY_SUFFIX}`;
   return {
     get: () => parseJson(storage.get(key)),
     update: (cookies = []) => storage.set(key, JSON.stringify(cookies)),

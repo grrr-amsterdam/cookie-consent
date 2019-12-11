@@ -1,4 +1,4 @@
-// import Config from './src/config';
+import Config from './src/config';
 import Dialog from './src/dialog';
 import Preferences from './src/preferences';
 import Storage from './src/storage';
@@ -13,9 +13,9 @@ import Storage from './src/storage';
  * - Consent listeners (`cookieConsent.on('consent')`, ...)
  * - Content checker (e.g. `data-cookie-consent="marketing"`)
  */
-const CookieConsent = config => {
+const CookieConsent = settings => {
   // Check if any settings are added.
-  if (typeof config !== 'object' || !Object.keys(config).length) {
+  if (typeof settings !== 'object' || !Object.keys(settings).length) {
     return console.warn(`No settings specified.`);
   }
 
@@ -26,7 +26,7 @@ const CookieConsent = config => {
   }
 
   // Construct config.
-  // const config = new Config(settings);
+  const config = new Config(settings);
 
   // Initialize dialog and append it to the DOM.
   const dialog = new Dialog(config);
@@ -34,14 +34,17 @@ const CookieConsent = config => {
   dialog.on('submit', prefs => preferences.update(prefs));
 
   // @TODO think about this...
-  if (config.addDialog) {
-    config.addDialog(dialog.element);
+  if (settings.addDialog) {
+    settings.addDialog(dialog.element);
   } else {
     document.body.insertBefore(dialog.element, document.body.firstElementChild);
   }
 
   // Initialize preferences and show dialog if none are found.
-  const preferences = new Preferences(storage, config.prefix);
+  const preferences = new Preferences({
+    storage,
+    prefix: config.get('prefix'),
+  });
   if (!preferences.has()) {
     window.setTimeout(() => dialog.show(), 100);
   }
@@ -49,7 +52,7 @@ const CookieConsent = config => {
   console.log(preferences.get());
 
   // Make it globally available.
-  window[config.global || 'CookieConsent'] = {
+  window[config.get('global')] = {
     hide: dialog.hide,
     show: dialog.show,
     getPreferences: preferences.get,
