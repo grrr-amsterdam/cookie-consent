@@ -1,7 +1,14 @@
 {
   "name": "@grrr/cookie-consent",
   "version": "0.0.1",
-  "description": "Cookie consent with dialog and content/GTM triggers.",
+  "description": "Cookie consent with accessible dialog, Google Tag Manager triggers and content conditional content hooks.",
+  "keywords": [
+    "cookie consent",
+    "cookie dialog",
+    "gdpr",
+    "google tag manager",
+    "gtm"
+  ],
   "main": "index.mjs",
   "author": "GRRR <npm@grrr.nl>",
   "homepage": "https://github.com/grrr-amsterdam/cookie-consent",
