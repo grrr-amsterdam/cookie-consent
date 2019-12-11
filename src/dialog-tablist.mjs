@@ -56,6 +56,14 @@ const DialogTabList = ({ prefix, cookieTypes, ariaLabels }) => {
     panels.forEach(panel => panel.setAttribute('aria-hidden', controls !== panel.id));
   };
 
+  const getValues = () => {
+    const inputs = [...tabList.querySelectorAll('input')];
+    return inputs.map(input => ({
+      id: input.name,
+      accepted: input.checked,
+    }));
+  };
+
   const addEventListeners = () => {
     const tabs = [...tabList.querySelectorAll('[role="tab"]')];
     const panels = [...tabList.querySelectorAll('[role="tabpanel"]')];
@@ -72,10 +80,11 @@ const DialogTabList = ({ prefix, cookieTypes, ariaLabels }) => {
 
   return {
     init() {
-      // ?
+      //
     },
     on: events.add,
     element: tabList,
+    getValues,
   };
 
 };

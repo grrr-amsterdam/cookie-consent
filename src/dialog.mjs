@@ -27,28 +27,17 @@ const Dialog = ({ prefix = PREFIX, labels, ariaLabels, cookieTypes }) => {
 
   const dialog = htmlToElement(renderDialog());
   const form = dialog.querySelector('form');
-  const tabListPlaceholder = dialog.querySelector('js-tablist-placeholder');
 
   return {
     init() {
-      form.addEventListener('submit', e => {
-        e.preventDefault();
-        // @TODO dispatch FormData or equivalent...
-        events.dispatch('submit', [
-          {
-            id: 'functional',
-            consent: true,
-          },
-          {
-            id: 'marketing',
-            consent: false,
-          },
-        ]);
-        this.hide();
-      });
-
       const tabList = new DialogTabList({ prefix, cookieTypes, ariaLabels });
       form.insertBefore(tabList.element, form.firstElementChild);
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        events.dispatch('submit', tabList.getValues());
+        this.hide();
+      });
     },
     on: events.add,
     show: () => dialog.setAttribute('aria-hidden', 'false'),
