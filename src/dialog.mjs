@@ -1,11 +1,11 @@
 import { htmlToElement } from '@grrr/utils';
-import { PREFIX } from './constants';
 import EventDispatcher from './event-dispatcher';
 import DialogTabList from './dialog-tablist';
 
-const Dialog = ({ prefix = PREFIX, labels, ariaLabels, cookieTypes }) => {
+const Dialog = config => {
 
   const events = new EventDispatcher();
+  const prefix = config.get('prefix');
 
   const renderDialog = () => {
     return `
@@ -13,11 +13,13 @@ const Dialog = ({ prefix = PREFIX, labels, ariaLabels, cookieTypes }) => {
         <div class="${prefix}__inner">
           <!--googleoff: all-->
           <div id="${prefix}-description">
-            <h1>${labels.title}</h1>
-            ${labels.description}
+            <h1>${config.get('labels.title')}</h1>
+            ${config.get('labels.description')}
           </div>
           <form>
-            <button class="${prefix}__button" aria-label="${ariaLabels.button}"><span>${labels.button}</span></button>
+            <button class="${prefix}__button" aria-label="${config.get('ariaLabels.button')}">
+              <span>${config.get('labels.button')}</span>
+            </button>
           </div>
           <!--googleon: all-->
         </div>
@@ -30,9 +32,8 @@ const Dialog = ({ prefix = PREFIX, labels, ariaLabels, cookieTypes }) => {
 
   return {
     init() {
-      const tabList = new DialogTabList({ prefix, cookieTypes, ariaLabels });
+      const tabList = new DialogTabList(config);
       form.insertBefore(tabList.element, form.firstElementChild);
-
       form.addEventListener('submit', e => {
         e.preventDefault();
         events.dispatch('submit', tabList.getValues());
