@@ -48,6 +48,13 @@ const CookieConsent = config => {
 
   console.log(preferences.get());
 
+  // Make it globally available.
+  window[config.global || 'CookieConsent'] = {
+    hide: dialog.hide,
+    show: dialog.show,
+    getPreferences: preferences.get,
+  };
+
   return {
     dialog: dialog.element,
   };
