@@ -1,11 +1,22 @@
+// import Config from './src/config';
 import Dialog from './src/dialog';
 import Preferences from './src/preferences';
 import Storage from './src/storage';
 
+/**
+ * @TODO
+ *
+ * - Provide defaults...
+ * - Store in LocalStorage + check
+ * - Trigger dialog with trigger (update settings)
+ * - GTM trigger (`event`: `cookieConsent`, types...)
+ * - Consent listeners (`cookieConsent.on('consent')`, ...)
+ * - Content checker (e.g. `data-cookie-consent="marketing"`)
+ */
 const CookieConsent = config => {
-  // Check config.
-  if (!config) {
-    return console.warn(`No config specified.`);
+  // Check if any settings are added.
+  if (typeof config !== 'object' || !Object.keys(config).length) {
+    return console.warn(`No settings specified.`);
   }
 
   // Check if LocalStorage is supported.
@@ -13,6 +24,9 @@ const CookieConsent = config => {
   if (!storage.supported) {
     return console.warn(`LocalStorage is not supported.`);
   }
+
+  // Construct config.
+  // const config = new Config(settings);
 
   // Initialize dialog and append it to the DOM.
   const dialog = new Dialog(config);
@@ -32,22 +46,11 @@ const CookieConsent = config => {
     window.setTimeout(() => dialog.show(), 100);
   }
 
+  console.log(preferences.get());
+
   return {
     dialog: dialog.element,
   };
 };
 
 export default CookieConsent;
-
-/**
- * @TODO
- *
- * - `settings` can be either appended directly or from a global...?
- *
- * - Dialog with content from 'CMS' (incl. array of cookie types)
- * - Store in LocalStorage + check
- * - Trigger dialog with trigger (update settings)
- * - GTM trigger (`event`: `cookieConsent`, types...)
- * - Consent listeners (`cookieConsent.on('consent')`, ...)
- * - Content checker (e.g. `data-cookie-consent="marketing"`)
- */

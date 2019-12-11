@@ -1,11 +1,11 @@
+import { parseJson } from '@grrr/utils';
 import { PREFIX, STORAGE_KEY_SUFFIX } from './constants';
-import { supportsLocalStorage } from './utils';
 
 const Preferences = (storage, prefix = PREFIX) => {
   const key = `${prefix}-${STORAGE_KEY_SUFFIX}`;
   return {
-    get: value => storage.get(key, value),
-    set: value => storage.set(key, value),
+    get: () => parseJson(storage.get(key)),
+    update: (cookies = []) => storage.set(key, JSON.stringify(cookies)),
     has: () => storage.has(key),
   };
 };
