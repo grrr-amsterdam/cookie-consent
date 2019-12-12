@@ -16,7 +16,7 @@ const Dialog = config => {
           ${config.get('labels.description')}
         </header>
         <form>
-          <button class="${prefix}__button" aria-label="${config.get('ariaLabels.button')}">
+          <button class="${prefix}__button" aria-label="${config.get('labels.aria.button')}">
             <span>${config.get('labels.button')}</span>
           </button>
         </form>
