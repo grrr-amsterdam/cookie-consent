@@ -8,7 +8,7 @@ const Storage = () => {
     get: (key, value) => window.localStorage.getItem(key, value),
     set: (key, value) => window.localStorage.setItem(key, value),
     has: key => window.localStorage.getItem(key) !== null,
-    supported: supportsLocalStorage(),
+    isSupported: supportsLocalStorage(),
   };
 };
 

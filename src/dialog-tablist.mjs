@@ -24,7 +24,7 @@ const DialogTabList = config => {
             href="#${prefix}-tabpanel-${index}"
             aria-controls="${prefix}-tabpanel-${index}"
             aria-selected="false"
-            aria-label="${config.get('ariaLabels.tabToggle')}">
+            aria-label="${config.get('labels.aria.tabToggle')}">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 16"><path d="M21.5.5l3 3.057-12 11.943L.5 3.557 3.5.5l9 9z"/></svg>
           </a>
         </header>
@@ -43,9 +43,9 @@ const DialogTabList = config => {
   };
 
   const renderTabList = () => {
-    const cookieTypes = config.get('cookieTypes', true) || [];
+    const cookieTypes = config.get('cookies', true) || [];
     return `
-      <ul class="${prefix}__tab-list" role="tablist" aria-label="${config.get('ariaLabels.tabList')}">
+      <ul class="${prefix}__tab-list" role="tablist" aria-label="${config.get('labels.aria.tabList')}">
         ${cookieTypes.map(renderTab).join('')}
       </ul>
     `;
@@ -78,7 +78,6 @@ const DialogTabList = config => {
       });
     });
   };
-
 
   return {
     init() {

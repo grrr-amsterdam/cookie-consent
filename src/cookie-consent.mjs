@@ -22,7 +22,7 @@ const CookieConsent = settings => {
     return console.warn(`LocalStorage is not supported.`);
   }
 
-  // Construct config.
+  // Construct 'classes'.
   const config = new Config(settings);
   const dialog = new Dialog(config);
   const events = new EventDispatcher();
