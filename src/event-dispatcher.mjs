@@ -5,7 +5,9 @@ const EventDispatcher = () => {
   const listeners = {};
   return {
     add: (type, fn) => listeners.type = [...listeners.type || [], fn],
-    dispatch: (type, ...args) => listeners.type.forEach(fn => fn(...args)),
+    dispatch: (type, ...args) => listeners.type
+      ? listeners.type.forEach(fn => fn(...args))
+      : undefined,
     listeners,
   };
 };
