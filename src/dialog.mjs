@@ -10,19 +10,17 @@ const Dialog = config => {
   const renderDialog = () => {
     return `
       <aside class="${prefix} js-cookie-bar" role="dialog" aria-live="polite" aria-describedby="${prefix}-description" aria-hidden="true" outline="0">
-        <div class="${prefix}__inner">
-          <!--googleoff: all-->
-          <div id="${prefix}-description">
-            <h1>${config.get('labels.title')}</h1>
-            ${config.get('labels.description')}
-          </div>
-          <form>
-            <button class="${prefix}__button" aria-label="${config.get('ariaLabels.button')}">
-              <span>${config.get('labels.button')}</span>
-            </button>
-          </div>
-          <!--googleon: all-->
-        </div>
+        <!--googleoff: all-->
+        <header class="${prefix}__header" id="${prefix}-description">
+          <h1>${config.get('labels.title')}</h1>
+          ${config.get('labels.description')}
+        </header>
+        <form>
+          <button class="${prefix}__button" aria-label="${config.get('ariaLabels.button')}">
+            <span>${config.get('labels.button')}</span>
+          </button>
+        </form>
+        <!--googleon: all-->
       </aside>
     `;
   }
@@ -33,7 +31,10 @@ const Dialog = config => {
   return {
     init() {
       const tabList = new DialogTabList(config);
+      tabList.init();
+
       form.insertBefore(tabList.element, form.firstElementChild);
+
       form.addEventListener('submit', e => {
         e.preventDefault();
         events.dispatch('submit', tabList.getValues());

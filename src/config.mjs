@@ -1,12 +1,15 @@
 import { DEFAULTS } from '../data/defaults';
 import { getEntryByDotString } from './utils';
 
+/**
+ * Config getter with defaults fallback and warning when required values are missing.
+ */
 const Config = settings => {
   return {
     get: (entryString, required = false) => {
       const value = getEntryByDotString(settings, entryString);
       if (!value && required) {
-        console.warn(`Setting '${entryString}' is missing.`);
+        console.warn(`Required setting '${entryString}' is missing.`);
         return undefined;
       }
       return value || getEntryByDotString(DEFAULTS, entryString);
