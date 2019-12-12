@@ -1,5 +1,8 @@
 import { supportsLocalStorage } from './utils';
 
+/**
+ * Store items in LocalStorage.
+ */
 const Storage = () => {
   return {
     get: (key, value) => window.localStorage.getItem(key, value),

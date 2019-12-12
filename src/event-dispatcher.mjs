@@ -1,3 +1,6 @@
+/**
+ * Register event listeners and dispatch events.
+ */
 const EventDispatcher = () => {
   const listeners = {};
   return {

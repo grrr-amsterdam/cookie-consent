@@ -2,6 +2,9 @@ import { parseJson } from '@grrr/utils';
 
 const KEY_SUFFIX = 'preferences';
 
+/**
+ * Normalize cookie preferences and sent/get the from Storage.
+ */
 const Preferences = ({ storage, prefix }) => {
   const key = `${prefix}-${KEY_SUFFIX}`;
   return {

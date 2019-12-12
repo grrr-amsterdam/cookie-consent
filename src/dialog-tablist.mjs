@@ -13,28 +13,30 @@ const DialogTabList = config => {
     return `
       <li role="presentation">
         <header class="${prefix}__tab">
-          <label>
+          <label class="${prefix}__option" data-required="${type.required}">
             <input type="checkbox" name="${type.id}" checked="${type.required}" ${type.required ? 'disabled' : ''}>
-            ${type.label}
+            <span>${type.label}</span>
           </label>
           <a
-            class="${prefix}__toggle"
+            class="${prefix}__tab-toggle"
             role="tab"
             id="${prefix}-tab-${index}"
             href="#${prefix}-tabpanel-${index}"
             aria-controls="${prefix}-tabpanel-${index}"
             aria-selected="false"
             aria-label="${config.get('ariaLabels.tabToggle')}">
-            <svg width="28" height="18" viewBox="0 0 28 18" xmlns="http://www.w3.org/2000/svg"><g stroke-width="2" fill="none" fill-rule="evenodd"><path d="M1 9h24" stroke-linecap="square"/><path d="M18 1l8 8-8 7.415"/></g></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 16"><path d="M21.5.5l3 3.057-12 11.943L.5 3.557 3.5.5l9 9z"/></svg>
           </a>
         </header>
         <div
-          class="${prefix}__tabpanel"
+          class="${prefix}__tab-panel"
           role="tabpanel"
           id="${prefix}-tabpanel-${index}"
           aria-labelledby="${prefix}-tab-${index}"
           aria-hidden="true">
-          ${type.description}
+          <div class="${prefix}__tab-description">
+            ${type.description}
+          </div>
         </div>
       </li>
     `;
@@ -43,7 +45,7 @@ const DialogTabList = config => {
   const renderTabList = () => {
     const cookieTypes = config.get('cookieTypes', true) || [];
     return `
-      <ul class="${prefix}__tablist" role="tablist" aria-label="${config.get('ariaLabels.tabList')}">
+      <ul class="${prefix}__tab-list" role="tablist" aria-label="${config.get('ariaLabels.tabList')}">
         ${cookieTypes.map(renderTab).join('')}
       </ul>
     `;
@@ -77,11 +79,10 @@ const DialogTabList = config => {
     });
   };
 
-  addEventListeners();
 
   return {
     init() {
-      //
+      addEventListeners();
     },
     on: events.add,
     element: tabList,
