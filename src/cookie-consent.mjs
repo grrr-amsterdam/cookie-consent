@@ -1,5 +1,6 @@
 import Config from './config';
 import Dialog from './dialog';
+import DomToggler from './dom-toggler';
 import EventDispatcher from './event-dispatcher';
 import Preferences from './preferences';
 import Storage from './storage';
@@ -7,7 +8,7 @@ import Storage from './storage';
 /**
  * @TODO
  * - Content checker (e.g. `data-cookie-consent="marketing"`)
- * - Render inputs with preferences
+ * - Fix event binding...
  * - Update settings (new labels)
  */
 const CookieConsent = settings => {
@@ -27,18 +28,23 @@ const CookieConsent = settings => {
   const preferences = new Preferences({ storage, prefix: config.get('prefix') });
   const dialog = new Dialog({ config, preferences });
   const events = new EventDispatcher();
+  const domToggler = new DomToggler();
 
   // Initialize dialog and bind `submit` event.
   dialog.init();
   dialog.on('submit', prefs => {
     preferences.update(prefs);
-    events.dispatch('update', prefs);
+    events.dispatch('set', prefs);
+    domToggler.toggle(prefs);
   });
 
   // Show dialog if no preferences are found, or fire the `update` event.
   if (preferences.has()) {
-    events.dispatch('update', preferences.getAll());
+    const prefs = preferences.getAll();
+    events.dispatch('set', prefs);
+    domToggler.toggle(prefs);
   } else {
+    // @TODO fix this...
     window.setTimeout(() => dialog.show(), 100);
   }
 
@@ -46,11 +52,11 @@ const CookieConsent = settings => {
     getDialog: () => dialog.element,
     hideDialog: dialog.hide,
     showDialog: dialog.show,
-    dialog: {
-      element: dialog.element,
-      show: dialog.show,
-      hide: dialog.hide,
-    },
+    // dialog: {
+    //   element: dialog.element,
+    //   show: dialog.show,
+    //   hide: dialog.hide,
+    // },
     getPreferences: preferences.get,
     on: events.add,
   };
