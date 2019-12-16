@@ -7,11 +7,11 @@ import Storage from './storage';
 
 /**
  * @TODO
- * - Content checker (e.g. `data-cookie-consent="marketing"`)
  * - Fix event binding...
  * - Update settings (new labels)
  */
 const CookieConsent = settings => {
+
   // Check if any settings are added.
   if (typeof settings !== 'object' || !Object.keys(settings).length) {
     return console.warn(`No settings specified.`);
@@ -27,8 +27,11 @@ const CookieConsent = settings => {
   const config = new Config(settings);
   const preferences = new Preferences({ storage, prefix: config.get('prefix') });
   const dialog = new Dialog({ config, preferences });
+  const domToggler = new DomToggler(config);
   const events = new EventDispatcher();
-  const domToggler = new DomToggler();
+
+  // Update initial content.
+  domToggler.toggle(preferences.get());
 
   // Initialize dialog and bind `submit` event.
   dialog.init();
@@ -38,13 +41,18 @@ const CookieConsent = settings => {
     domToggler.toggle(prefs);
   });
 
-  // Show dialog if no preferences are found, or fire the `update` event.
+  // Append the dialog to the DOM, if this is not explicitly prevented.
+  if (config.get('append') !== false) {
+    const appendEl = document.querySelector('main') || document.body.firstElementChild;
+    document.body.insertBefore(dialog.element, appendEl);
+  }
+
+  // Show dialog if no preferences are found, or fire the `set` event.
   if (preferences.has()) {
     const prefs = preferences.getAll();
     events.dispatch('set', prefs);
-    domToggler.toggle(prefs);
   } else {
-    // @TODO fix this...
+    // Force a small timeout, to make sure any transition happens in the next cycle.
     window.setTimeout(() => dialog.show(), 100);
   }
 
@@ -60,6 +68,7 @@ const CookieConsent = settings => {
     getPreferences: preferences.get,
     on: events.add,
   };
+
 };
 
 export default CookieConsent;

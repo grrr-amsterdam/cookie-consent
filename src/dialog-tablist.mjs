@@ -13,18 +13,18 @@ const DialogTabList = ({ config, preferences }) => {
   /**
    * Render cookie tabs.
    */
-  const renderTab = ({ id, label, description, required, accepted }, index) => {
-
-    // @TODO fix this...
-    const checked = typeof (required || accepted) === 'undefined'
-      ? config.get('checked')
-      : required || accepted;
+  const renderTab = ({ id, label, description, required, checked, accepted }, index) => {
+    const shouldBeChecked = typeof accepted !== 'undefined'
+      ? accepted
+      : typeof required !== 'undefined'
+        ? required
+        : checked;
 
     return `
       <li role="presentation">
         <header class="${PREFIX}__tab">
           <label class="${PREFIX}__option" data-required="${required}">
-            <input type="checkbox" name="${id}" ${checked ? 'checked' : ''} ${required ? 'disabled' : ''}>
+            <input type="checkbox" name="${id}" ${shouldBeChecked ? 'checked' : ''} ${required ? 'disabled' : ''}>
             <span>${label}</span>
           </label>
           <a
