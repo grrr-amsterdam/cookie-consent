@@ -13,7 +13,7 @@ const Storage = () => {
     get,
     set,
     has,
-    isSupported: supportsLocalStorage,
+    isSupported: supportsLocalStorage(),
   };
 
 };
