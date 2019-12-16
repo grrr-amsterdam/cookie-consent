@@ -5,7 +5,7 @@ const REJECTED_STATE_ATTRIBUTE = 'data-cookie-consent-rejected';
 /**
  * DOM toggler, which enables conditional script tags or embedded content.
  */
-const DomToggler = () => {
+const DomToggler = config => {
 
   /**
    * Append a single script.
@@ -94,10 +94,11 @@ const DomToggler = () => {
 
   return {
     toggle: preferences => {
-      preferences.forEach(type => {
-        toggleScripts(type);
-        toggleConditionalElements(type);
-        toggleConditionalIframes(type);
+      config.get('cookies').forEach(type => {
+        const accepted = config.get(type.id);
+        toggleScripts({ id: type.id, accepted });
+        toggleConditionalElements({ id: type.id, accepted });
+        toggleConditionalIframes({ id: type.id, accepted });
       });
     },
   };
