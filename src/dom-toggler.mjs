@@ -1,4 +1,4 @@
-const SCRIPT_ATTRIBUTE = 'data-cookie-consent';
+const GENERAL_ATTRIBUTE = 'data-cookie-consent';
 const ACCEPTED_STATE_ATTRIBUTE = 'data-cookie-consent-accepted';
 const REJECTED_STATE_ATTRIBUTE = 'data-cookie-consent-rejected';
 
@@ -28,11 +28,41 @@ const DomToggler = () => {
     if (!accepted) {
       return;
     }
-    const scripts = document.documentElement.querySelectorAll(`script[${SCRIPT_ATTRIBUTE}="${id}"]`);
+    const scripts = document.documentElement.querySelectorAll(`script[${GENERAL_ATTRIBUTE}="${id}"]`);
     [...scripts].forEach(script => {
       appendScript(script);
       script.parentNode.removeChild(script);
     });
+  };
+
+  /**
+   * Show a single iframe.
+   */
+  const showIframe = iframe => {
+    const src = iframe.getAttribute('data-src');
+    if (src) {
+      iframe.setAttribute('src', src);
+      iframe.removeAttribute('data-src');
+    }
+  };
+
+  /**
+   * Hide a single iframe.
+   */
+  const hideIframe = iframe => {
+    const src = iframe.getAttribute('src');
+    if (src) {
+      iframe.setAttribute('data-src', src);
+      iframe.removeAttribute('src');
+    }
+  };
+
+  /**
+   * Show conditional iframes based on wanted state.
+   */
+  const toggleConditionalIframes = ({ id, accepted }) => {
+    const iframes = document.body.querySelectorAll(`iframe[${GENERAL_ATTRIBUTE}="${id}"]`);
+    [...iframes].forEach(el => accepted ? showIframe(el) : hideIframe(el));
   };
 
   /**
@@ -53,9 +83,9 @@ const DomToggler = () => {
   };
 
   /**
-   * Enable script tags by removing bogus type.
+   * Show conditional elements based on wanted state.
    */
-  const toggleConditionalContent = ({ id, accepted }) => {
+  const toggleConditionalElements = ({ id, accepted }) => {
     const accepts = document.body.querySelectorAll(`[${ACCEPTED_STATE_ATTRIBUTE}="${id}"]`);
     const rejects = document.body.querySelectorAll(`[${REJECTED_STATE_ATTRIBUTE}="${id}"]`);
     [...accepts].forEach(el => accepted ? showElement(el) : hideElement(el));
@@ -66,7 +96,8 @@ const DomToggler = () => {
     toggle: preferences => {
       preferences.forEach(type => {
         toggleScripts(type);
-        toggleConditionalContent(type);
+        toggleConditionalElements(type);
+        toggleConditionalIframes(type);
       });
     },
   };
