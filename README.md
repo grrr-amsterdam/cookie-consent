@@ -5,8 +5,8 @@
 ### JavaScript utility library
 
 - No dependencies
-- Customizable cookie types (required, pre-checked)
-- Conditional script tags, iframes and elements based on cookie type consent
+- Customizable cookie types (required, pre-checked, labeling)
+- Conditional script tags, iframes and elements based on cookie consent and type
 
 Built with ❤️ by [GRRR](https://grrr.tech).
 
@@ -26,9 +26,21 @@ Import the module and initialize it:
 import CookieConsent from '@grrr/cookie-consent';
 
 const cookieConsent = new CookieConsent({
-  // options...
+  cookies: [
+    {
+      id: 'functional',
+      label: 'Functional',
+      description: 'Lorem ipsum.',
+      required: true,
+    },  
+    {
+      id: 'marketing',
+      label: 'Marketing',
+      description: 'Lorem ipsum.',
+      checked: true,
+    },
+  ],
 });
-...
 ```
 
 ### Conditional script tags
@@ -65,15 +77,24 @@ To conditionally show or hide elements, add the `data-cookie-consent-<state>`-at
 When hiding, the module will add `aria-hidden="true"` and `style="display: none;"` to remove it from the DOM.
 When showing, the module will remove any inline set `display` style, along with any `hidden` or `aria-hidden` attributes.
 
-## Options & Configuration
+## Options
 
 ```js
-  prefix: 'cookie-consent',
-  append: false,
-  checked: true,
+{
+  prefix: 'cookie-consent', // The prefix used to 
+  append: true,            //
+  cookies: [
+    {
+      id: 'functional',    // The identifier of the cookie
+      label: 'Functional', // The label used in the dialog
+      description: '...',  // The discription used in the dialog
+      required: true,      // Mark a cookie required
+      checked: true,       // The default checked state (only valid if optional)
+    },
+  ],
   labels: {
     title: 'Cookies & Privacy',
-    description: '<p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus <a href="#">privacy policy</a>.</p>',
+    description: '<p>Lorem ipsum <a href="#">privacy policy</a>.</p>',
     button: 'Ok',
     aria: {
       button: 'Confirm cookie settings',
@@ -81,48 +102,55 @@ When showing, the module will remove any inline set `display` style, along with 
       tabToggle: 'Toggle cookie tab',
     },
   },
-  cookies: [
-    {
-      id: 'functional',
-      label: 'Functional',
-      description: 'Nullam id dolor id nibh ultricies vehicula ut id elit. Vestibulum id ligula porta felis euismod semper. Etiam porta sem malesuada magna mollis euismod.',
-      required: true,
-    },
-    {
-      id: 'analytical',
-      label: 'Analytical',
-      description: 'Nullam id dolor id nibh ultricies vehicula ut id elit. Vestibulum id ligula porta felis euismod semper. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Vestibulum id ligula porta felis euismod semper. Etiam porta sem malesuada magna mollis euismod.',
-      required: true,
-    },
-    {
-      id: 'marketing',
-      label: 'Marketing & Social Media',
-      description: 'Nullam id dolor id nibh ultricies vehicula ut id elit. Vestibulum id ligula porta felis euismod semper. Etiam porta sem malesuada magna mollis euismod.',
-      checked: true,
-    },
-  ],
-```
-
-### Append dialog at custom DOM position
-
-To append the dialog at a custom position in the DOM, set the auto-appending option to false:
-
-```js
-{
-    append: false,
 }
 ```
 
-The get the dialog element via the `getDialog()` method, and append it:
-
-```js
-document.body.insertBefore(cookieConsent.getDialog(), document.querySelector('main'));
-```
-
-### Global
+## API
 
 To make the module globally available, simply add it as a global after invoking it:
 
 ```js
 window.CookieConsent = cookieConsent;
 ```
+
+### new CookieConsent(options: object)
+
+...
+
+### CookieConsent.getDialog()
+
+...
+
+### CookieConsent.showDialog()
+
+...
+
+### CookieConsent.hideDialog()
+
+...
+
+### CookieConsent.getPreferences()
+
+...
+
+### CookieConsent.on(type: string)
+
+...
+
+## Events
+
+### set
+
+```js
+cookieConsent.on('set', cookies => {
+  const accepted = cookies.filter(cookie => cookie.accepted);
+  const dataLayer = window.dataLayer || [];
+  accepted.forEach(cookie => dataLayer.push({ event: 'cookieConsent', cookieType: cookie.id }));
+});
+```
+
+## Styling
+
+...
+
+<img width="440" alt="Screenshot of the GDPR proof cookie consent dialog from @grrr/cookie-consent" src="https://user-images.githubusercontent.com/1607628/70926276-1f5c9600-202d-11ea-9772-90fd56b5861d.png">
