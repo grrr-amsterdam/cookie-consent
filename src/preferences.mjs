@@ -3,15 +3,24 @@ import { parseJson } from '@grrr/utils';
 const KEY_SUFFIX = 'preferences';
 
 /**
- * Normalize cookie preferences and sent/get the from Storage.
+ * Normalize cookie preferences and set/get from Storage.
  */
 const Preferences = ({ storage, prefix }) => {
-  const key = `${prefix}-${KEY_SUFFIX}`;
+
+  const KEY = `${prefix}-${KEY_SUFFIX}`;
+
+  const getAll = () => parseJson(storage.get(KEY)) || [];
+  const get = id => getAll().find(type => type.id === id);
+  const update = (cookies = []) => storage.set(KEY, JSON.stringify(cookies));
+  const has = () => storage.has(KEY) && getAll().length;
+
   return {
-    get: () => parseJson(storage.get(key)),
-    update: (cookies = []) => storage.set(key, JSON.stringify(cookies)),
-    has: () => storage.has(key),
+    get,
+    getAll,
+    update,
+    has,
   };
+
 };
 
 export default Preferences;

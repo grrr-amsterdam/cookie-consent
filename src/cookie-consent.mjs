@@ -6,9 +6,9 @@ import Storage from './storage';
 
 /**
  * @TODO
- * - Trigger dialog with trigger (update settings)
- * - GTM trigger (`event`: `cookieConsent`, types...)
  * - Content checker (e.g. `data-cookie-consent="marketing"`)
+ * - Render inputs with preferences
+ * - Update settings (new labels)
  */
 const CookieConsent = settings => {
   // Check if any settings are added.
@@ -24,9 +24,9 @@ const CookieConsent = settings => {
 
   // Construct 'classes'.
   const config = new Config(settings);
-  const dialog = new Dialog(config);
-  const events = new EventDispatcher();
   const preferences = new Preferences({ storage, prefix: config.get('prefix') });
+  const dialog = new Dialog({ config, preferences });
+  const events = new EventDispatcher();
 
   // Initialize dialog and bind `submit` event.
   dialog.init();
@@ -37,15 +37,20 @@ const CookieConsent = settings => {
 
   // Show dialog if no preferences are found, or fire the `update` event.
   if (preferences.has()) {
-    events.dispatch('update', preferences.get());
+    events.dispatch('update', preferences.getAll());
   } else {
     window.setTimeout(() => dialog.show(), 100);
   }
 
   return {
     getDialog: () => dialog.element,
-    hideDialog: () => dialog.hide,
-    showDialog: () => dialog.show,
+    hideDialog: dialog.hide,
+    showDialog: dialog.show,
+    dialog: {
+      element: dialog.element,
+      show: dialog.show,
+      hide: dialog.hide,
+    },
     getPreferences: preferences.get,
     on: events.add,
   };
