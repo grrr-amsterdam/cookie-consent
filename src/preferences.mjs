@@ -11,14 +11,16 @@ const Preferences = ({ storage, prefix }) => {
 
   const getAll = () => parseJson(storage.get(KEY)) || [];
   const get = id => getAll().find(type => type.id === id);
-  const update = (cookies = []) => storage.set(KEY, JSON.stringify(cookies));
   const has = () => storage.has(KEY) && getAll().length;
+  const isAccepted = id => get(id) && get(id).accepted;
+  const update = (cookies = []) => storage.set(KEY, JSON.stringify(cookies));
 
   return {
     get,
     getAll,
-    update,
     has,
+    isAccepted,
+    update,
   };
 
 };

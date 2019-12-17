@@ -65,7 +65,8 @@ const CookieConsent = settings => {
     //   show: dialog.show,
     //   hide: dialog.hide,
     // },
-    getPreferences: preferences.get,
+    isAccepted: preferences.isAccepted,
+    getPreferences: preferences.getAll,
     on: events.add,
   };
 
