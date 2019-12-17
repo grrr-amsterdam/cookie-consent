@@ -10,13 +10,15 @@
 
 Built with ❤️ by [GRRR](https://grrr.tech).
 
+<img src="https://user-images.githubusercontent.com/1607628/70984703-3cd84100-20bb-11ea-9fa0-0d23c49c0d94.png" alt="Screenshot of the GDPR proof cookie consent dialog from @grrr/cookie-consent" width="422"/>
+
 ## Installation
 
 ```sh
 $ npm install @grrr/cookie-consent
 ```
 
-Note: depending on your setup [additional configuration might be needed](https://github.com/grrr-amsterdam/cookie-consent/wiki/Usage-with-build-tools), since this package is published with untranspiled JavaScript.
+Note: depending on your setup [additional configuration might be needed](https://github.com/grrr-amsterdam/cookie-consent/wiki/Usage-with-build-tools). This package is published with untranspiled JavaScript, as EcmaScript Modules (ESM).
 
 ## Usage
 
@@ -45,9 +47,9 @@ const cookieConsent = new CookieConsent({
 
 ### Conditional script tags
 
-To conditionally show scripts, add the `data-cookie-consent`-attribute with the id of the required cookie consent type, and disable the script by setting the `type` to `text/plain`:
+To conditionally show scripts, add the `data-cookie-consent`-attribute with the id of the required cookie type, and disable the script by setting the `type` to `text/plain`:
 
-```js
+```html
 // External script.
 <script src="https://..." data-cookie-consent="marketing" type="text/plain"></script>
 
@@ -79,24 +81,28 @@ When showing, the module will remove any inline set `display` style, along with 
 
 ## Options
 
+All options are optional and will fallback to the defaults, except the array of `cookies`.
+
 ```js
 {
-  prefix: 'cookie-consent', // The prefix used to 
-  append: true,            //
-  cookies: [
+  prefix: 'cookie-consent', // The prefix used for styling and identifiers.
+  append: true,             // By default the dialog is appended before the `main` tag or
+                            // as the first `body` child. Disable to append it yourself.
+  cookies: [                // Array with cookie types. 
     {
-      id: 'functional',    // The identifier of the cookie
-      label: 'Functional', // The label used in the dialog
-      description: '...',  // The discription used in the dialog
-      required: true,      // Mark a cookie required
-      checked: true,       // The default checked state (only valid if optional)
+      id: 'marketing',      // The unique identifier of the cookie type.
+      label: 'Marketing',   // The label used in the dialog.
+      description: '...',   // The description used in the dialog.
+      required: false,      // Mark a cookie required.
+      checked: false,       // The default checked state (only valid when not `required`).
     },
   ],
-  labels: {
+  labels: {                 // Labels to provide content for the dialog.
     title: 'Cookies & Privacy',
-    description: '<p>Lorem ipsum <a href="#">privacy policy</a>.</p>',
+    description: '<p>This site makes use of third-party cookies. Read more in our 
+                  <a href="/privacy-policy">privacy policy</a>.</p>',
     button: 'Ok',
-    aria: {
+    aria: {                 // Some `aria-label`s to improve accessibility.
       button: 'Confirm cookie settings',
       tabList: 'List with cookie types',
       tabToggle: 'Toggle cookie tab',
@@ -107,50 +113,131 @@ When showing, the module will remove any inline set `display` style, along with 
 
 ## API
 
-To make the module globally available, simply add it as a global after invoking it:
+To make the module globally available, simply add it as a global after the instance been created:
 
 ```js
+const cookieConsent = new CookieConsent();
 window.CookieConsent = cookieConsent;
 ```
 
-### new CookieConsent(options: object)
+### Constructor
 
-...
+#### new CookieConsent(options: object)
 
-### CookieConsent.getDialog()
+Will create a new instance.
 
-...
+```js
+const cookieConsent = new CookieConsent({
+    cookies: [
+        // ...
+    ]
+});
+```
 
-### CookieConsent.showDialog()
+#### Methods
 
-...
+- [getDialog()](#getdialog)
+- [showDialog()](#showdialog)
+- [hideDialog()](#hidedialog)
+- [isAccepted()](#isacceptedid-string)
+- [getPreferences()](#getpreferences)
+- [on()](#on)
 
-### CookieConsent.hideDialog()
+#### getDialog()
 
-...
+Will fetch the dialog element, for example to append it at a custom DOM position.
 
-### CookieConsent.getPreferences()
+```js
+document.body.insertBefore(cookieConsent.getDialog(), document.body.firstElementChild);
+```
 
-...
+#### showDialog()
 
-### CookieConsent.on(type: string)
+Will show the dialog element, for example to show it when triggered to change settings.
 
-...
+```js
+el.addEventListener('click', e => {
+  e.preventDefault();
+  cookieConsent.showDialog();
+});
+```
+
+### hideDialog()
+
+Will hide the dialog element, for example to show it when triggered to change settings.
+
+```js
+el.addEventListener('click', e => {
+  e.preventDefault();
+  cookieConsent.hideDialog();
+});
+```
+
+#### isAccepted(id: string)
+
+Check if a certain cookie type has been accepted. Will return `true` when accepted, `false` when denied, and `undefined` when no action has been taken.
+
+```js
+const acceptedMarketing = cookieConsent.isAccepted('marketing'); // => true, false, undefined
+```
+
+#### getPreferences()
+
+Will return an array with preferences per cookie type.
+
+```js
+const preferences = cookieConsent.getPreferences(); 
+
+// [
+//   {
+//     "id": "analytical",
+//     "accepted": true
+//   },
+//   {
+//     "id": "marketing",
+//     "accepted": false
+//   }
+// ]
+```
+
+#### on(event: string)
+
+Add listeners for events. Will fire when the event is dispatched from the CookieConsent module.
+See available [events](#events).
+
+```js
+cookieConsent.on('event', eventHandler);
+```
 
 ## Events
 
-### set
+Events are bound by the [on](#onevent-string) method.
+
+- [set](#set)
+
+#### set
+
+Will fire whenever the cookie settings are updated, or when the instance is constructed and existing settings are found. It returns the array with cookie preferences, identical to the `getPreferences()` method.
+
+This can be used to fire Google Tag Manager triggers for each cookie type, and it should only be added once.
+
+Example:
 
 ```js
-cookieConsent.on('set', cookies => {
-  const accepted = cookies.filter(cookie => cookie.accepted);
+cookieConsent.on('set', preferences => {
+  const accepted = preferences.filter(cookie => cookie.accepted);
   const dataLayer = window.dataLayer || [];
-  accepted.forEach(cookie => dataLayer.push({ event: 'cookieConsent', cookieType: cookie.id }));
+  accepted.forEach(cookie => dataLayer.push({ 
+      event: 'cookieConsent', 
+      cookieType: cookie.id,
+  }));
 });
 ```
 
 ## Styling
 
+No styling is be applied by the JavaScript module. However, there is a default stylesheet in the form of a Sass module which can easiliy be added and customized to your project and its needs.
+
 ...
 
-<img width="440" alt="Screenshot of the GDPR proof cookie consent dialog from @grrr/cookie-consent" src="https://user-images.githubusercontent.com/1607628/70926276-1f5c9600-202d-11ea-9772-90fd56b5861d.png">
+![Screenshot of the GDPR proof cookie consent dialog from @grrr/cookie-consent](https://user-images.githubusercontent.com/1607628/70981646-d43a9580-20b5-11ea-8308-ddef988afde0.png)

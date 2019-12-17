@@ -1,7 +1,7 @@
 {
   "name": "@grrr/cookie-consent",
   "version": "0.0.1",
-  "description": "Cookie consent with accessible dialog, Google Tag Manager triggers and content conditional content hooks.",
+  "description": "Cookie consent with accessible dialog, agnostic tag triggers and conditional content, script and embed hooks.",
   "keywords": [
     "cookie consent",
     "cookie dialog",
