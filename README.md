@@ -45,9 +45,9 @@ const cookieConsent = new CookieConsent({
 });
 ```
 
-### Conditional script tags
+### Conditional scripts
 
-To conditionally show scripts, add the `data-cookie-consent`-attribute with the id of the required cookie type, and disable the script by setting the `type` to `text/plain`:
+Conditionally show `script` tags. Add the `data-cookie-consent`-attribute with the id of the required cookie type, and disable the script by setting the `type` to `text/plain`:
 
 ```html
 // External script.
@@ -61,7 +61,7 @@ To conditionally show scripts, add the `data-cookie-consent`-attribute with the 
 
 ### Conditional iframe embeds
 
-To conditionally show or hide iframes, add the `data-cookie-consent`-attribute with the id of the required cookie consent type, and disable the iframe renaming the `src`-attribute to `data-src`:
+Conditionally show or hide `iframe` embed. Add the `data-cookie-consent`-attribute with the id of the required cookie consent type, and disable the iframe renaming the `src`-attribute to `data-src`:
 
 ```html
 <iframe data-cookie-consent="marketing" data-src="https://..."></iframe>
@@ -69,15 +69,17 @@ To conditionally show or hide iframes, add the `data-cookie-consent`-attribute w
 
 ### Conditional content
 
-To conditionally show or hide elements, add the `data-cookie-consent-<state>`-attribute with the id of the required cookie consent type. There are two types of state: `accepted` and `rejected`.
+Conditionally show or hide elements. Add the `data-cookie-consent-<state>`-attribute with the id of the required cookie consent type. There are two types of state: `accepted` and `rejected`.
 
 ```html
 <div data-cookie-consent-accepted="marketing" hidden>Accepted</div>
 <div data-cookie-consent-rejected="marketing" hidden>Rejected</div>
 ```
 
-When hiding, the module will add `aria-hidden="true"` and `style="display: none;"` to remove it from the DOM.
-When showing, the module will remove any inline set `display` style, along with any `hidden` or `aria-hidden` attributes.
+Notes: 
+
+- When hiding, the module will add `aria-hidden="true"` and `style="display: none;"` to remove it from the DOM.
+- When showing, the module will remove any inline set `display` style, along with any `hidden` or `aria-hidden` attributes.
 
 ## Options
 
@@ -113,16 +115,15 @@ All options are optional and will fallback to the defaults, except the array of 
 
 ## API
 
-To make the module globally available, simply add it as a global after the instance been created:
+- [new CookieConsent()](#new-cookieconsentoptions-object)
+- [getDialog()](#getdialog)
+- [showDialog()](#showdialog)
+- [hideDialog()](#hidedialog)
+- [isAccepted()](#isacceptedid-string)
+- [getPreferences()](#getpreferences)
+- [on()](#on)
 
-```js
-const cookieConsent = new CookieConsent();
-window.CookieConsent = cookieConsent;
-```
-
-### Constructor
-
-#### new CookieConsent(options: object)
+### new CookieConsent(options: object)
 
 Will create a new instance.
 
@@ -134,16 +135,15 @@ const cookieConsent = new CookieConsent({
 });
 ```
 
-#### Methods
+To make the module globally available, simply add it as a global after the instance been created:
 
-- [getDialog()](#getdialog)
-- [showDialog()](#showdialog)
-- [hideDialog()](#hidedialog)
-- [isAccepted()](#isacceptedid-string)
-- [getPreferences()](#getpreferences)
-- [on()](#on)
+```js
+const cookieConsent = new CookieConsent();
 
-#### getDialog()
+window.CookieConsent = cookieConsent;
+```
+
+### getDialog()
 
 Will fetch the dialog element, for example to append it at a custom DOM position.
 
@@ -151,7 +151,7 @@ Will fetch the dialog element, for example to append it at a custom DOM position
 document.body.insertBefore(cookieConsent.getDialog(), document.body.firstElementChild);
 ```
 
-#### showDialog()
+### showDialog()
 
 Will show the dialog element, for example to show it when triggered to change settings.
 
@@ -173,7 +173,7 @@ el.addEventListener('click', e => {
 });
 ```
 
-#### isAccepted(id: string)
+### isAccepted(id: string)
 
 Check if a certain cookie type has been accepted. Will return `true` when accepted, `false` when denied, and `undefined` when no action has been taken.
 
@@ -181,7 +181,7 @@ Check if a certain cookie type has been accepted. Will return `true` when accept
 const acceptedMarketing = cookieConsent.isAccepted('marketing'); // => true, false, undefined
 ```
 
-#### getPreferences()
+### getPreferences()
 
 Will return an array with preferences per cookie type.
 
@@ -200,7 +200,7 @@ const preferences = cookieConsent.getPreferences();
 // ]
 ```
 
-#### on(event: string)
+### on(event: string)
 
 Add listeners for events. Will fire when the event is dispatched from the CookieConsent module.
 See available [events](#events).
@@ -215,7 +215,7 @@ Events are bound by the [on](#onevent-string) method.
 
 - [set](#set)
 
-#### set
+### set
 
 Will fire whenever the cookie settings are updated, or when the instance is constructed and existing settings are found. It returns the array with cookie preferences, identical to the `getPreferences()` method.
 

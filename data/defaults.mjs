@@ -1,5 +1,6 @@
 export const DEFAULTS = {
   prefix: 'cookie-consent',
+  append: true,
   labels: {
     title: 'Cookies & Privacy',
     description: '<p>This site makes use of third-party cookies. Read more in our <a href="/privacy-policy">privacy policy</a>.</p>',
@@ -9,5 +10,5 @@ export const DEFAULTS = {
       tabList: 'List with cookie types',
       tabToggle: 'Toggle cookie tab',
     },
-  },
+  }
 };

@@ -6,9 +6,7 @@ import Preferences from './preferences';
 import Storage from './storage';
 
 /**
- * @TODO
- * - Fix event binding...
- * - Update settings (new labels)
+ * Main constructor, which provides the API to the outside.
  */
 const CookieConsent = settings => {
 
@@ -31,26 +29,25 @@ const CookieConsent = settings => {
   const events = new EventDispatcher();
 
   // Update initial content.
-  domToggler.toggle(preferences.get());
+  domToggler.toggle(preferences);
 
   // Initialize dialog and bind `submit` event.
   dialog.init();
-  dialog.on('submit', prefs => {
-    preferences.update(prefs);
-    events.dispatch('set', prefs);
-    domToggler.toggle(prefs);
+  dialog.on('submit', cookies => {
+    preferences.update(cookies);
+    events.dispatch('set', preferences.getAll());
+    domToggler.toggle(preferences);
   });
 
-  // Append the dialog to the DOM, if this is not explicitly prevented.
+  // Append dialog to the DOM, if this is not explicitly prevented.
   if (config.get('append') !== false) {
     const appendEl = document.querySelector('main') || document.body.firstElementChild;
     document.body.insertBefore(dialog.element, appendEl);
   }
 
-  // Show dialog if no preferences are found, or fire the `set` event.
+  // Show dialog if no preferences are found. If found, fire the `set` event.
   if (preferences.has()) {
-    const prefs = preferences.getAll();
-    events.dispatch('set', prefs);
+    events.dispatch('set', preferences.getAll());
   } else {
     // Force a small timeout, to make sure any transition happens in the next cycle.
     window.setTimeout(() => dialog.show(), 100);
@@ -60,12 +57,7 @@ const CookieConsent = settings => {
     getDialog: () => dialog.element,
     hideDialog: dialog.hide,
     showDialog: dialog.show,
-    // dialog: {
-    //   element: dialog.element,
-    //   show: dialog.show,
-    //   hide: dialog.hide,
-    // },
-    isAccepted: preferences.isAccepted,
+    isAccepted: preferences.getState,
     getPreferences: preferences.getAll,
     on: events.add,
   };
