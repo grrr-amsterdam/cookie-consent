@@ -2,7 +2,7 @@ export const DEFAULTS = {
   prefix: 'cookie-consent',
   labels: {
     title: 'Cookies & Privacy',
-    description: '<p>Lorem ipsum <a href="#">privacy policy</a>.</p>',
+    description: '<p>This site makes use of third-party cookies. Read more in our <a href="/privacy-policy">privacy policy</a>.</p>',
     button: 'Ok',
     aria: {
       button: 'Confirm cookie settings',
