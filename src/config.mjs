@@ -1,4 +1,4 @@
-import { DEFAULTS } from '../data/defaults';
+import { DEFAULTS } from './config-defaults';
 import { getEntryByDotString } from './utils';
 
 /**
