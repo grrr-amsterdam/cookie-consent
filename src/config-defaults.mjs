@@ -10,5 +10,5 @@ export const DEFAULTS = {
       tabList: 'List with cookie types',
       tabToggle: 'Toggle cookie tab',
     },
-  }
+  },
 };

@@ -66,7 +66,7 @@ const DialogTabList = ({ config, preferences }) => {
         ${cookiesWithState.map(renderTab).join('')}
       </ul>
     `;
-  }
+  };
 
   /**
    * Tab list element.

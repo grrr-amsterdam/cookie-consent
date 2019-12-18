@@ -7,17 +7,6 @@ const EventDispatcher = () => {
   const queue = {};
 
   /**
-   * Store listener with callback function per type. Invoke the queue if it exists.
-   */
-  const add = (type, fn) => {
-    listeners[type] = [...listeners.type || [], fn];
-    if (queue[type]) {
-      queue[type].forEach(payload => dispatch(type, payload));
-      delete queue[type];
-    }
-  };
-
-  /**
    * Dispatch events to a certain listener type, or store them in a queue.
    */
   const dispatch = (type, payload) => {
@@ -25,6 +14,17 @@ const EventDispatcher = () => {
       listeners[type].forEach(fn => fn(payload));
     } else {
       queue[type] = [...queue.type || [], payload];
+    }
+  };
+
+  /**
+   * Store listener with callback function per type. Invoke the queue if it exists.
+   */
+  const add = (type, fn) => {
+    listeners[type] = [...listeners.type || [], fn];
+    if (queue[type]) {
+      queue[type].forEach(payload => dispatch(type, payload));
+      delete queue[type];
     }
   };
 
