@@ -17,6 +17,9 @@
     "type": "git",
     "url": "git+https://github.com/grrr-amsterdam/cookie-consent.git"
   },
+  "dependencies": {
+    "@grrr/utils": "^2.3.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/plugin-transform-modules-commonjs": "^7.6.0",
@@ -30,9 +33,6 @@
   "scripts": {
     "test": "jest --passWithNoTests",
     "lint": "eslint . --ext=.js,.mjs"
-  },
-  "dependencies": {
-    "@grrr/utils": "^2.3.0"
   },
   "jest": {
     "transformIgnorePatterns": [
