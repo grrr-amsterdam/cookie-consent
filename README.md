@@ -215,7 +215,7 @@ Events are bound by the [on](#onevent-string) method.
 
 - [set](#set)
 
-### set
+### update
 
 Will fire whenever the cookie settings are updated, or when the instance is constructed and existing settings are found. It returns the array with cookie preferences, identical to the `getPreferences()` method.
 
@@ -224,7 +224,7 @@ This can be used to fire tag triggers for each cookie type, for example via Goog
 Example:
 
 ```js
-cookieConsent.on('set', preferences => {
+cookieConsent.on('update', preferences => {
   const accepted = preferences.filter(cookie => cookie.accepted);
   const dataLayer = window.dataLayer || [];
   accepted.forEach(cookie => dataLayer.push({ 

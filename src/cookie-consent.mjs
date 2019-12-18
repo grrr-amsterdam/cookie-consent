@@ -34,8 +34,8 @@ const CookieConsent = settings => {
   // Initialize dialog and bind `submit` event.
   dialog.init();
   dialog.on('submit', cookies => {
-    preferences.update(cookies);
-    events.dispatch('set', preferences.getAll());
+    preferences.store(cookies);
+    events.dispatch('update', preferences.getAll());
     domToggler.toggle(preferences);
   });
 
@@ -49,8 +49,8 @@ const CookieConsent = settings => {
   // Note: both are invoked with a timeout, to ensure they are triggered in the next
   // cycle. This is a pretty lame but simple way to make sure the `on` method is bound,
   //  and the dialog is appended to the DOM before invoking possible transitions.
-  if (preferences.has()) {
-    window.setTimeout(() => events.dispatch('set', preferences.getAll()), 0);
+  if (preferences.hasPreferences()) {
+    window.setTimeout(() => events.dispatch('update', preferences.getAll()), 0);
   } else {
     window.setTimeout(() => dialog.show(), 0);
   }
