@@ -135,7 +135,7 @@ const cookieConsent = new CookieConsent({
 });
 ```
 
-To make the module globally available, simply add it as a global after the instance been created:
+To make the instance globally available (for instance to add event listeners elsewhere), add it as a global after the instance has been created:
 
 ```js
 const cookieConsent = new CookieConsent();
@@ -164,7 +164,7 @@ el.addEventListener('click', e => {
 
 ### hideDialog()
 
-Will hide the dialog element, for example to show it when triggered to change settings.
+Will hide the dialog element.
 
 ```js
 el.addEventListener('click', e => {
@@ -219,7 +219,7 @@ Events are bound by the [on](#onevent-string) method.
 
 Will fire whenever the cookie settings are updated, or when the instance is constructed and existing settings are found. It returns the array with cookie preferences, identical to the `getPreferences()` method.
 
-This can be used to fire Google Tag Manager triggers for each cookie type, and it should only be added once.
+This can be used to fire tag triggers for each cookie type, for example via Google Tag Manager.
 
 Example:
 
@@ -236,7 +236,7 @@ cookieConsent.on('set', preferences => {
 
 ## Styling
 
-No styling is be applied by the JavaScript module. However, there is a default stylesheet in the form of a Sass module which can easiliy be added and customized to your project and its needs.
+No styling is being applied by the JavaScript module. However, there is a default stylesheet in the form of a Sass module which can easily be added and customized to your project and its needs.
 
 ...
 
