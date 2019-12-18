@@ -17,7 +17,7 @@ const Dialog = ({ config, preferences }) => {
    */
   const renderDialog = () => {
     return `
-      <aside class="${PREFIX} js-cookie-bar" role="dialog" aria-live="polite" aria-describedby="${PREFIX}-description" aria-hidden="true" outline="0">
+      <aside class="${PREFIX} js-cookie-bar" role="dialog" aria-live="polite" aria-describedby="${PREFIX}-description" aria-hidden="true" tabindex="0">
         <!--googleoff: all-->
         <header class="${PREFIX}__header" id="${PREFIX}-description">
           <h1>${config.get('labels.title')}</h1>
