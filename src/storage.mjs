@@ -5,15 +5,24 @@ import { supportsLocalStorage } from './utils';
  */
 const Storage = () => {
 
-  const get = (key, value) => window.localStorage.getItem(key, value);
-  const set = (key, value) => window.localStorage.setItem(key, value);
-  const has = key => window.localStorage.getItem(key) !== null;
+  const storageModule = supportsLocalStorage() ? window.localStorage : {
+    attributes: {},
+    setItem(key, val) {
+      this.attributes[key] = val;
+    },
+    getItem(key) {
+      return this.attributes[key];
+    },
+  };
+
+  const get = (key, value) => storageModule.getItem(key, value);
+  const set = (key, value) => storageModule.setItem(key, value);
+  const has = key => storageModule.getItem(key) !== null;
 
   return {
     get,
     set,
     has,
-    isSupported: supportsLocalStorage(),
   };
 
 };

@@ -1,13 +1,16 @@
 import { parseJson } from '@grrr/utils';
+import Storage from './storage';
 
 const KEY_SUFFIX = 'preferences';
 
 /**
  * Normalize cookie preferences and set/get from Storage.
  */
-const Preferences = ({ storage, prefix }) => {
+const Preferences = prefix => {
 
   const KEY = `${prefix}-${KEY_SUFFIX}`;
+
+  const storage = new Storage();
 
   const getAll = () => parseJson(storage.get(KEY)) || [];
   const get = id => getAll().find(type => type.id === id);
