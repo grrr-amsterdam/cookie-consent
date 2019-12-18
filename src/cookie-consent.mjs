@@ -12,7 +12,7 @@ const CookieConsent = settings => {
 
   // Check if any settings are added.
   if (typeof settings !== 'object' || !Object.keys(settings).length) {
-    return console.warn(`No settings specified.`);
+    console.warn(`No settings specified.`);
   }
 
   // Check if LocalStorage is supported.

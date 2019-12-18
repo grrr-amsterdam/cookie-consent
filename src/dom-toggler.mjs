@@ -94,7 +94,8 @@ const DomToggler = config => {
 
   return {
     toggle: preferences => {
-      config.get('cookies').forEach(type => {
+      const cookies = config.get('cookies') || [];
+      cookies.forEach(type => {
         const accepted = preferences.getState(type.id);
         toggleScripts({ id: type.id, accepted });
         toggleConditionalElements({ id: type.id, accepted });
