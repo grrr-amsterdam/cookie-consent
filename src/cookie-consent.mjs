@@ -3,7 +3,6 @@ import Dialog from './dialog';
 import DomToggler from './dom-toggler';
 import EventDispatcher from './event-dispatcher';
 import Preferences from './preferences';
-import Storage from './storage';
 
 /**
  * Main constructor, which provides the API to the outside.
@@ -15,15 +14,9 @@ const CookieConsent = settings => {
     console.warn(`No settings specified.`);
   }
 
-  // Check if LocalStorage is supported.
-  const storage = new Storage();
-  if (!storage.isSupported) {
-    return console.warn(`LocalStorage is not supported.`);
-  }
-
   // Construct 'classes'.
   const config = new Config(settings);
-  const preferences = new Preferences({ storage, prefix: config.get('prefix') });
+  const preferences = new Preferences(config.get('prefix'));
   const dialog = new Dialog({ config, preferences });
   const domToggler = new DomToggler(config);
   const events = new EventDispatcher();
@@ -48,7 +41,7 @@ const CookieConsent = settings => {
   // Show dialog if no preferences are found. If found, fire the `set` event.
   // Note: both are invoked with a timeout, to ensure they are triggered in the next
   // cycle. This is a pretty lame but simple way to make sure the `on` method is bound,
-  //  and the dialog is appended to the DOM before invoking possible transitions.
+  // and the dialog is appended to the DOM before invoking possible transitions.
   if (preferences.hasPreferences()) {
     window.setTimeout(() => events.dispatch('update', preferences.getAll()), 0);
   } else {
