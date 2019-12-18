@@ -9,6 +9,7 @@ const DomToggler = config => {
 
   /**
    * Append a single script.
+   * @TODO append it to the same location and re-add classes and attributes.
    */
   const appendScript = script => {
     const newScript = document.createElement('script');
