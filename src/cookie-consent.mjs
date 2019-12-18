@@ -39,12 +39,10 @@ const CookieConsent = settings => {
   }
 
   // Show dialog if no preferences are found. If found, fire the `set` event.
-  // Note: both are invoked with a timeout, to ensure they are triggered in the next
-  // cycle. This is a pretty lame but simple way to make sure the `on` method is bound,
-  // and the dialog is appended to the DOM before invoking possible transitions.
   if (preferences.hasPreferences()) {
-    window.setTimeout(() => events.dispatch('update', preferences.getAll()), 0);
+    events.dispatch('update', preferences.getAll());
   } else {
+    // Invoke with a timeout, to ensure it's added in the next cycle to cater for transitions.
     window.setTimeout(() => dialog.show(), 0);
   }
 
