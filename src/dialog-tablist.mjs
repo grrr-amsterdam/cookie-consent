@@ -56,13 +56,14 @@ const DialogTabList = ({ config, preferences }) => {
    * Render cookie tab list.
    */
   const renderTabList = () => {
-    const cookies = config.get('cookies', true).map(type => ({
+    const cookies = config.get('cookies', true) || [];
+    const cookiesWithState = cookies.map(type => ({
       ...type,
       accepted: preferences.get(type.id) ? preferences.get(type.id).accepted : undefined,
     }));
     return `
       <ul class="${PREFIX}__tab-list" role="tablist" aria-label="${config.get('labels.aria.tabList')}">
-        ${cookies.map(renderTab).join('')}
+        ${cookiesWithState.map(renderTab).join('')}
       </ul>
     `;
   }
