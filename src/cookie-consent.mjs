@@ -42,6 +42,14 @@ const CookieConsent = settings => {
   if (preferences.hasPreferences()) {
     events.dispatch('update', preferences.getAll());
   } else {
+    // Fire the `update` event for required cookies regardless of consent.
+    if (settings.cookies) {
+      const requiredCookies = settings.cookies.filter(cookie => cookie.required).map(cookie => ({
+        id: cookie.id,
+        accepted: true,
+      }));
+      events.dispatch('update', requiredCookies);
+    }
     // Show the dialog. Invoked via a timeout, to ensure it's added in the next cycle
     // to cater for possible transitions.
     window.setTimeout(() => dialog.show(), 0);
