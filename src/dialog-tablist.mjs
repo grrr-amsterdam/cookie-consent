@@ -14,9 +14,18 @@ const DialogTabList = ({ config, preferences }) => {
    * Render cookie tabs.
    */
   const renderTab = ({ id, label, description, required, checked, accepted }, index) => {
+
+    /**
+     * Check if the checkbox should be checked:
+     *
+     * 1. If any preference is saved, use that.
+     * 2. If it's explicitly `required` in the settings, mark it checked (ignore
+     *    `required: false`, because of #3)
+     * 3. Use the `checked` setting.
+     */
     const shouldBeChecked = typeof accepted !== 'undefined'
       ? accepted
-      : typeof required !== 'undefined'
+      : required === true
         ? required
         : checked;
 
