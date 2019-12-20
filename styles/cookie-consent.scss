@@ -1,0 +1,120 @@
+$cookie-consent-breakpoint: 40em;
+$cookie-consent-dark: #000000;
+$cookie-consent-light: #FFFFFF;
+$cookie-consent-horizontal-padding: 25px;
+
+.cookie-consent {
+    @include styled-scrollbar;
+    z-index: 1000; position: fixed; right: 0; bottom: 0; left: 0;
+    max-height: 100%; overflow: hidden; overflow-y: auto; overscroll-behavior: contain;
+    background: $cookie-consent-light;
+    box-shadow: 0 0 5px 0 rgba($cookie-consent-dark, 0.3);
+    color: $cookie-consent-dark;
+    transform: translate3d(0, 0, 0);
+    transition: transform 0.5s, opacity 0.5s, visibility 0.5s;
+    @media (min-width: $cookie-consent-breakpoint) {
+        right: 25px; bottom: 25px; left: auto;
+        max-width: 400px; max-height: calc(100% - 50px);
+    }
+}
+.cookie-consent[aria-hidden="true"] {
+    visibility: hidden; opacity: 0; pointer-events: none;
+    transform: translate(0, 100px);
+    @media (min-width: $cookie-consent-breakpoint) {
+        transform: translate(100px, 0);
+    }
+}
+
+/**
+ * Header
+ */
+.cookie-consent__header {
+    padding: 20px $cookie-consent-horizontal-padding; font-size: 0.8em;
+}
+.cookie-consent__header h1 {
+    margin: 0 auto 0.5em; font-size: 20px; line-height: 1.2;
+    @media (min-width: $cookie-consent-breakpoint) {
+        font-size: 28px;
+    }
+}
+.cookie-consent__header p:last-child {
+    margin-bottom: 0;
+}
+
+/**
+ * Tabs
+ */
+.cookie-consent__tab-list {
+    margin: 0; padding: 0; list-style-type: none;
+}
+.cookie-consent__tab-list li {
+    margin: 0; border-top: 1px solid rgba($cookie-consent-dark, 0.1);
+}
+.cookie-consent__tab {
+    display: flex; align-items: stretch;
+}
+
+/**
+ * Tab option (label with input in it) & tab toggle
+ */
+.cookie-consent__option {
+    flex: 1 1 auto; display: flex; align-items: center;
+    padding: 15px $cookie-consent-horizontal-padding 17px;
+    font-size: 0.9em; user-select: none;
+}
+.cookie-consent__option input {
+    margin-right: 10px;
+}
+.cookie-consent__option:not([data-required="true"]):hover {
+    background: rgba($cookie-consent-dark, 0.05);
+}
+.cookie-consent__tab-toggle {
+    position: relative; flex: 0 0 auto;
+    display: block; width: 55px; min-height: 55px; padding: 10px;
+    background: rgba($cookie-consent-dark, 0.1); line-height: 0;
+}
+.cookie-consent__tab-toggle:hover {
+    background: rgba($cookie-consent-dark, 0.2);
+}
+.cookie-consent__tab-toggle > svg {
+    position: absolute; top: 50%; left: 50%;
+    margin-top: -6px; margin-left: -9px;
+    width: 18px; height: 11px; fill: $cookie-consent-dark;
+}
+.cookie-consent__tab-toggle[aria-selected="true"] > svg {
+    transform: scaleY(-1);
+}
+
+/**
+ * Tab panel (with description)
+ */
+.cookie-consent__tab-panel {
+    position: relative; overflow: hidden;
+    transition: all 0.35s;
+}
+.cookie-consent__tab-panel[aria-hidden="true"] {
+    display: none;
+}
+.cookie-consent__tab-description {
+    padding: 20px $cookie-consent-horizontal-padding;
+    background: rgba($cookie-consent-dark, 0.05); font-size: 0.8em;
+}
+.cookie-consent__tab-description::after {
+    content: '';
+    position: absolute; top: 0; left: 25px; width: 0; height: 0;
+    border: 8px solid transparent; border-top-color: $cookie-consent-light; border-bottom: 0;
+}
+
+/**
+ * Button
+ */
+.cookie-consent__button {
+    width: 100%; min-height: 55px;
+    background: $cookie-consent-dark; border: 0; color: $cookie-consent-light;
+    font-weight: bold; line-height: 1.1; text-decoration: none; text-align: center;
+    cursor: pointer; appearance: none;
+}
+.cookie-consent__button:hover,
+.cookie-consent__button:focus {
+    background: rgba($cookie-consent-dark, 0.9);
+}

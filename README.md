@@ -213,7 +213,7 @@ cookieConsent.on('event', eventHandler);
 
 Events are bound by the [on](#onevent-string) method.
 
-- [set](#set)
+- [update](#update)
 
 ### update
 
@@ -224,20 +224,28 @@ This event can be used to fire tag triggers for each cookie type, for example vi
 Example:
 
 ```js
-cookieConsent.on('update', preferences => {
-  const accepted = preferences.filter(cookie => cookie.accepted);
+cookieConsent.on('update', cookies => {
+  const accepted = cookies.filter(cookie => cookie.accepted);
   const dataLayer = window.dataLayer || [];
   accepted.forEach(cookie => dataLayer.push({ 
-      event: 'cookieConsent', 
-      cookieType: cookie.id,
+    event: 'cookieConsent', 
+    cookieType: cookie.id,
   }));
 });
 ```
 
 ## Styling
 
-No styling is being applied by the JavaScript module. However, there is a default stylesheet in the form of a Sass module which can easily be added and customized to your project and its needs.
+No styling is being applied by the JavaScript module. However, there is a default stylesheet in the form of a [Sass](https://sass-lang.com/) module which can easily be added and customized to your project and its needs.
 
-...
+### Stylesheet
 
-![Screenshot of the GDPR proof cookie consent dialog from @grrr/cookie-consent](https://user-images.githubusercontent.com/1607628/70981646-d43a9580-20b5-11ea-8308-ddef988afde0.png)
+View the [base stylesheet](https://github.com/grrr-amsterdam/cookie-consent/tree/master/styles/cookie-consent.scss). 
+
+Note: no vendor prefixes are applied. We recommend using something like [Autoprefixer](https://github.com/postcss/autoprefixer) to do that automatically. 
+
+### Interface
+
+With the styling from the base module applied, the interface will look roughly like this (fonts, sizes and margins might differ):
+
+<img src="https://user-images.githubusercontent.com/1607628/70981646-d43a9580-20b5-11ea-8308-ddef988afde0.png" alt="Screenshot of the GDPR proof cookie consent dialog from @grrr/cookie-consent" width="834">
