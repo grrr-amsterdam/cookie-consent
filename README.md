@@ -217,9 +217,9 @@ Events are bound by the [on](#onevent-string) method.
 
 ### update
 
-Will fire whenever the cookie settings are updated, or when the instance is constructed and existing settings are found. It returns the array with cookie preferences, identical to the `getPreferences()` method.
+Will fire whenever the cookie settings are updated, or when the instance is constructed and stored preferences are found. It returns the array with cookie preferences, identical to the `getPreferences()` method.
 
-This can be used to fire tag triggers for each cookie type, for example via Google Tag Manager.
+This event can be used to fire tag triggers for each cookie type, for example via Google Tag Manager (GTM). In the following example trackers are loaded via a trigger added in GTM. Each cookie type has it's own trigger, based on the `cookieType` variable, and the trigger itself is invoked by the `cookieConsent` event.
 
 Example:
 

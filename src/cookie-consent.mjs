@@ -9,7 +9,7 @@ import Preferences from './preferences';
  */
 const CookieConsent = settings => {
 
-  // Check if any settings are added.
+  // Show warning when settings are missing.
   if (typeof settings !== 'object' || !Object.keys(settings).length) {
     console.warn(`No settings specified.`);
   }
@@ -38,11 +38,12 @@ const CookieConsent = settings => {
     document.body.insertBefore(dialog.element, appendEl);
   }
 
-  // Show dialog if no preferences are found. If found, fire the `set` event.
+  // Show the dialog when no preferences are found. If found, fire the `update` event.
   if (preferences.hasPreferences()) {
     events.dispatch('update', preferences.getAll());
   } else {
-    // Invoke with a timeout, to ensure it's added in the next cycle to cater for transitions.
+    // Show the dialog. Invoked via a timeout, to ensure it's added in the next cycle
+    // to cater for possible transitions.
     window.setTimeout(() => dialog.show(), 0);
   }
 
