@@ -31,7 +31,7 @@
     "jest": "^24.9.0"
   },
   "scripts": {
-    "test": "jest --passWithNoTests",
+    "test": "jest",
     "lint": "eslint . --ext=.js,.mjs"
   },
   "jest": {
