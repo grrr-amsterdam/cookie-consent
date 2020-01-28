@@ -2,28 +2,45 @@ import Preferences from '../src/preferences';
 
 describe('Preferences', () => {
 
-  const
+  const FOO = { id: 'foo', accepted: true };
+  const BAR = { id: 'bar', accepted: false };
+  const COOKIES = [FOO, BAR];
 
   const preferences = Preferences();
 
-  beforeEach(() => preferences.store());
+  beforeEach(() => preferences.store([]));
 
-  getAll
-  get
-  getState
-  hasPreferences
-  store
-
-  test('Should store.', () => {
-    preferences.set('foo', true);
-    preferences.set('bar', false);
+  test('get', () => {
+    expect(preferences.get('foo')).toBeUndefined();
+    preferences.store(COOKIES);
+    expect(preferences.get('foo')).toEqual(FOO);
   });
 
-  test('Should retrieve strings.', () => {
-    storage.set('foo', 'a');
-    storage.set('bar', 'b');
-    expect(storage.get('foo')).toEqual('a');
-    expect(storage.get('bar')).toEqual('b');
+  test('getAll', () => {
+    expect(preferences.getAll()).toEqual([]);
+    preferences.store(COOKIES);
+    expect(preferences.getAll()).toEqual(COOKIES);
+    expect(preferences.getAll().length).toEqual(2);
+  });
+
+  test('getState', () => {
+    expect(preferences.getState('foo')).toBeUndefined();
+    preferences.store(COOKIES);
+    expect(preferences.getState('foo')).toEqual(true);
+    expect(preferences.getState('bar')).toEqual(false);
+  });
+
+  test('hasPreferences', () => {
+    expect(preferences.hasPreferences()).toBeFalsy();
+    preferences.store(COOKIES);
+    expect(preferences.hasPreferences()).toBeTruthy();
+  });
+
+  test('store', () => {
+    preferences.store(COOKIES);
+    expect(preferences.getAll()).toEqual(COOKIES);
+    preferences.store([]);
+    expect(preferences.getAll()).toEqual([]);
   });
 
 });
