@@ -10,7 +10,7 @@ const Preferences = prefix => {
 
   const KEY = `${prefix}-${KEY_SUFFIX}`;
 
-  const storage = new Storage();
+  const storage = Storage();
 
   const getAll = () => parseJson(storage.get(KEY)) || [];
   const get = id => getAll().find(type => type.id === id);

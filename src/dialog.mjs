@@ -7,8 +7,8 @@ import DialogTabList from './dialog-tablist';
  */
 const Dialog = ({ config, preferences }) => {
 
-  const tabList = new DialogTabList({ config, preferences });
-  const events = new EventDispatcher();
+  const tabList = DialogTabList({ config, preferences });
+  const events = EventDispatcher();
 
   const PREFIX = config.get('prefix');
 

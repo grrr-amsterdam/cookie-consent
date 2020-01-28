@@ -15,11 +15,11 @@ const CookieConsent = settings => {
   }
 
   // Construct 'classes'.
-  const config = new Config(settings);
-  const preferences = new Preferences(config.get('prefix'));
-  const dialog = new Dialog({ config, preferences });
-  const domToggler = new DomToggler(config);
-  const events = new EventDispatcher();
+  const config = Config(settings);
+  const preferences = Preferences(config.get('prefix'));
+  const dialog = Dialog({ config, preferences });
+  const domToggler = DomToggler(config);
+  const events = EventDispatcher();
 
   // Update initial content.
   domToggler.toggle(preferences);

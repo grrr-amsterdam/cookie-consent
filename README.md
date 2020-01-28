@@ -27,7 +27,7 @@ Import the module and initialize it:
 ```js
 import CookieConsent from '@grrr/cookie-consent';
 
-const cookieConsent = new CookieConsent({
+const cookieConsent = CookieConsent({
   cookies: [
     {
       id: 'functional',
@@ -115,7 +115,7 @@ All options are optional and will fallback to the defaults, except the array of 
 
 ## API
 
-- [new CookieConsent()](#new-cookieconsentoptions-object)
+- [CookieConsent()](#cookieconsentoptions-object)
 - [getDialog()](#getdialog)
 - [showDialog()](#showdialog)
 - [hideDialog()](#hidedialog)
@@ -123,12 +123,12 @@ All options are optional and will fallback to the defaults, except the array of 
 - [getPreferences()](#getpreferences)
 - [on()](#on)
 
-### new CookieConsent(options: object)
+### CookieConsent(options: object)
 
 Will create a new instance.
 
 ```js
-const cookieConsent = new CookieConsent({
+const cookieConsent = CookieConsent({
     cookies: [
         // ...
     ]
@@ -138,7 +138,7 @@ const cookieConsent = new CookieConsent({
 To make the instance globally available (for instance to add event listeners elsewhere), add it as a global after the instance has been created:
 
 ```js
-const cookieConsent = new CookieConsent();
+const cookieConsent = CookieConsent();
 
 window.CookieConsent = cookieConsent;
 ```

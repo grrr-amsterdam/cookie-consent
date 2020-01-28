@@ -6,7 +6,7 @@ import EventDispatcher from './event-dispatcher';
  */
 const DialogTabList = ({ config, preferences }) => {
 
-  const events = new EventDispatcher();
+  const events = EventDispatcher();
 
   const PREFIX = config.get('prefix');
 
