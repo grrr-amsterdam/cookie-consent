@@ -91,6 +91,7 @@ All options except `cookies` are optional. They will fall back to the defaults, 
   prefix: 'cookie-consent', // The prefix used for styling and identifiers.
   append: true,             // By default the dialog is appended before the `main` tag or
                             // as the first `body` child. Disable to append it yourself.
+  appendDelay: 500,         // The delay after which the cookie consent should be appended.
   cookies: [                // Array with cookie types. 
     {
       id: 'marketing',      // The unique identifier of the cookie type.
