@@ -8,6 +8,7 @@ const DialogTabList = ({ config, preferences }) => {
 
   const events = EventDispatcher();
 
+  const TYPE = config.get('type');
   const PREFIX = config.get('prefix');
 
   /**
@@ -33,7 +34,7 @@ const DialogTabList = ({ config, preferences }) => {
       <li role="presentation">
         <header class="${PREFIX}__tab">
           <label class="${PREFIX}__option" data-required="${required}">
-            <input type="checkbox" name="${id}" ${shouldBeChecked ? 'checked' : ''} ${required ? 'disabled' : ''}>
+            <input type="${TYPE === 'radio' ? 'radio' : 'checkbox'}" name="${PREFIX}-input" value="${id}" ${shouldBeChecked ? 'checked' : ''} ${required && TYPE !== 'radio' ? 'disabled' : ''}>
             <span>${label}</span>
           </label>
           <a
@@ -66,9 +67,11 @@ const DialogTabList = ({ config, preferences }) => {
    */
   const renderTabList = () => {
     const cookies = config.get('cookies', true) || [];
-    const cookiesWithState = cookies.map(type => ({
-      ...type,
-      accepted: preferences.get(type.id) ? preferences.get(type.id).accepted : undefined,
+    const cookiesWithState = cookies.map(cookieType => ({
+      ...cookieType,
+      accepted: preferences.get(cookieType.id)
+        ? preferences.get(cookieType.id).accepted
+        : undefined,
     }));
     return `
       <ul class="${PREFIX}__tab-list" role="tablist" aria-label="${config.get('labels.aria.tabList')}">
@@ -88,7 +91,7 @@ const DialogTabList = ({ config, preferences }) => {
   const getValues = () => {
     const inputs = [...tabList.querySelectorAll('input')];
     return inputs.map(input => ({
-      id: input.name,
+      id: input.value,
       accepted: input.checked,
     }));
   };

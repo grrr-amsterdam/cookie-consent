@@ -83,10 +83,11 @@ Notes:
 
 ## Options
 
-All options are optional and will fallback to the defaults, except the array of `cookies`.
+All options except `cookies` are optional. They will fall back to the defaults, which are listed here:
 
 ```js
 {
+  type: 'checkbox',         // Can be `checkbox` or `radio`.
   prefix: 'cookie-consent', // The prefix used for styling and identifiers.
   append: true,             // By default the dialog is appended before the `main` tag or
                             // as the first `body` child. Disable to append it yourself.
@@ -95,16 +96,16 @@ All options are optional and will fallback to the defaults, except the array of 
       id: 'marketing',      // The unique identifier of the cookie type.
       label: 'Marketing',   // The label used in the dialog.
       description: '...',   // The description used in the dialog.
-      required: false,      // Mark a cookie required.
+      required: false,      // Mark a cookie required (ignored when type is `radio`).
       checked: false,       // The default checked state (only valid when not `required`).
     },
   ],
   labels: {                 // Labels to provide content for the dialog.
     title: 'Cookies & Privacy',
-    description: '<p>This site makes use of third-party cookies. Read more in our 
-                  <a href="/privacy-policy">privacy policy</a>.</p>',
+    description: `<p>This site makes use of third-party cookies. Read more in our
+                  <a href="/privacy-policy">privacy policy</a>.</p>`,
     button: 'Ok',
-    aria: {                 // Some `aria-label`s to improve accessibility.
+    aria: {                 // Some ARIA labels to improve accessibility.
       button: 'Confirm cookie settings',
       tabList: 'List with cookie types',
       tabToggle: 'Toggle cookie tab',
