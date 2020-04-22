@@ -10,6 +10,7 @@ const Dialog = ({ config, preferences }) => {
   const tabList = DialogTabList({ config, preferences });
   const events = EventDispatcher();
 
+  const TYPE = config.get('type');
   const PREFIX = config.get('prefix');
 
   /**
@@ -49,7 +50,16 @@ const Dialog = ({ config, preferences }) => {
    * Handle form submits.
    */
   const submitHandler = e => {
-    events.dispatch('submit', tabList.getValues());
+    e.preventDefault();
+
+    const values = tabList.getValues();
+
+    // Do not close the dialog when the type is `radio` and none are checked.
+    if (TYPE === 'radio' && !values.find(v => v.accepted)) {
+      return;
+    }
+
+    events.dispatch('submit', values);
     hide();
   };
 
