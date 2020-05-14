@@ -44,7 +44,7 @@ const CookieConsent = settings => {
   } else {
     // Show the dialog. Invoked via a timeout, to ensure it's added in the next cycle
     // to cater for possible transitions.
-    window.setTimeout(() => dialog.show(), config.get('appendDelay') || 500);
+    window.setTimeout(() => dialog.show(), config.get('appendDelay'));
   }
 
   return {

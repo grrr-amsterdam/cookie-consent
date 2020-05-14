@@ -93,6 +93,8 @@ All options except `cookies` are optional. They will fall back to the defaults, 
   append: true,             // By default the dialog is appended before the `main` tag or
                             // as the first `body` child. Disable to append it yourself.
   appendDelay: 500,         // The delay after which the cookie consent should be appended.
+  acceptAllButton: false,   // Nudge users to accept all cookies when nothing is selected.
+                            // Will select all checkboxes, or the top radio button.
   cookies: [                // Array with cookie types. 
     {
       id: 'marketing',      // The unique identifier of the cookie type.
@@ -102,12 +104,20 @@ All options except `cookies` are optional. They will fall back to the defaults, 
       checked: false,       // The default checked state (only valid when not `required`).
     },
   ],
-  labels: {                 // Labels to provide content for the dialog.
+  // Labels to provide content for the dialog.
+  labels: {
     title: 'Cookies & Privacy',
     description: `<p>This site makes use of third-party cookies. Read more in our
                   <a href="/privacy-policy">privacy policy</a>.</p>`,
-    button: 'Ok',
-    aria: {                 // Some ARIA labels to improve accessibility.
+    // Button labels based on state and preferences.
+    button: {
+      // The default button label.
+      default: 'Save preferences',
+      // Shown when `acceptAllButton` is set, and no option is selected.
+      acceptAll: 'Accept all',
+    },
+    // ARIA labels to improve accessibility.
+    aria: {
       button: 'Confirm cookie settings',
       tabList: 'List with cookie types',
       tabToggle: 'Toggle cookie tab',
