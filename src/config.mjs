@@ -12,7 +12,7 @@ const Config = settings => {
         console.warn(`Required setting '${entryString}' is missing.`);
         return undefined;
       }
-      return value == null ? getEntryByDotString(DEFAULTS, entryString) : value;
+      return value === undefined ? getEntryByDotString(DEFAULTS, entryString) : value;
     },
   };
 };
