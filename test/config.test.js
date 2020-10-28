@@ -2,7 +2,7 @@ import Config from '../src/config';
 
 describe('Config', () => {
   test('append-falsy', () => {
-    const config = Config({append: false});
+    const config = Config({ append: false });
     expect(config.get('append')).toBeFalsy();
   });
 
