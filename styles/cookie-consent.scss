@@ -4,7 +4,26 @@ $cookie-consent-light: #FFFFFF;
 $cookie-consent-horizontal-padding: 25px;
 
 .cookie-consent {
-    @include styled-scrollbar;
+    // Standardized (currently only Firefox, plus on macOS only when system
+    // preferences are set to always show scrollbars).
+    // sass-lint:disable no-misspelled-properties
+    scrollbar-color: $cookie-consent-dark transparent;
+    scrollbar-width: thin;
+    // sass-lint:enable no-misspelled-properties
+    // WebKit only (Chrome, Safari, Edge).
+    &::-webkit-scrollbar-track {
+        margin: 3px 0;
+        background-color: transparent;
+    }
+    &::-webkit-scrollbar {
+        width: 12px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: $cookie-consent-dark;
+        border: 3px solid transparent;
+        border-top: 0; border-bottom: 0;
+        background-clip: padding-box;
+    }
     z-index: 1000; position: fixed; right: 0; bottom: 0; left: 0;
     max-height: 100%; overflow: hidden; overflow-y: auto; overscroll-behavior: contain;
     background: $cookie-consent-light;
