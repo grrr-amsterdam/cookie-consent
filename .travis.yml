@@ -6,6 +6,7 @@ cache:
 script:
 - yarn lint
 - yarn test
+- node-sass styles/*
 before_install:
 - npm install -g yarn
 - yarn install
