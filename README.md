@@ -135,6 +135,7 @@ All options except `cookies` are optional. They will fall back to the defaults, 
 - [isAccepted()](#isacceptedid-string)
 - [getPreferences()](#getpreferences)
 - [on()](#on)
+- [updatePreference()](#updatePreferencecookies-array)
 
 ### CookieConsent(options: object)
 
@@ -220,6 +221,34 @@ See available [events](#events).
 
 ```js
 cookieConsent.on('event', eventHandler);
+```
+
+
+### updatePreference(cookies: array)
+
+Update cookies programmatically. 
+
+By updating cookies programmatically, the event handler will receive an update method.
+
+```js
+const cookies = [
+    {
+      id: 'marketing',
+      label: 'Marketing',
+      description: '...',
+      required: false,
+      checked: true,
+    },
+    {
+      id: 'simple',
+      label: 'Simple',
+      description: '...',
+      required: false,
+      checked: false,
+    },
+];
+
+cookieConsent.updatePreference(cookies);
 ```
 
 ## Events
