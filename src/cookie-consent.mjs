@@ -24,13 +24,15 @@ const CookieConsent = settings => {
   // Update initial content.
   domToggler.toggle(preferences);
 
-  // Initialize dialog and bind `submit` event.
-  dialog.init();
-  dialog.on('submit', cookies => {
+  const updatePreference = (cookies) => {
     preferences.store(cookies);
     events.dispatch('update', preferences.getAll());
     domToggler.toggle(preferences);
-  });
+  };
+
+  // Initialize dialog and bind `submit` event.
+  dialog.init();
+  dialog.on('submit', updatePreference);
 
   // Append dialog to the DOM, if this is not explicitly prevented.
   if (config.get('append') !== false) {
@@ -54,6 +56,7 @@ const CookieConsent = settings => {
     isAccepted: preferences.getState,
     getPreferences: preferences.getAll,
     on: events.add,
+    updatePreference,
   };
 
 };
