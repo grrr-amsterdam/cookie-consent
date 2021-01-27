@@ -37,7 +37,9 @@ const CookieConsent = settings => {
   // Append dialog to the DOM, if this is not explicitly prevented.
   if (config.get('append') !== false) {
     const appendEl = document.querySelector('main') || document.body.firstElementChild;
-    appendEl.parentNode.insertBefore(dialog.element, appendEl);
+    if (appendEl !== null) {
+      appendEl.parentNode.insertBefore(dialog.element, appendEl);
+    }
   }
 
   // Show the dialog when no preferences are found. If found, fire the `update` event.
