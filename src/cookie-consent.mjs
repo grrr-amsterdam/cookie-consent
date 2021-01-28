@@ -39,6 +39,8 @@ const CookieConsent = settings => {
     const appendEl = document.querySelector('main') || document.body.firstElementChild;
     if (appendEl !== null) {
       appendEl.parentNode.insertBefore(dialog.element, appendEl);
+    } else {
+      throw new Error("Unable to add cookie dialog: element does not exist.");
     }
   }
 
