@@ -1,6 +1,6 @@
 # Cookie Consent
 
-[![Build Status](https://travis-ci.com/grrr-amsterdam/cookie-consent.svg?branch=master)](https://travis-ci.com/grrr-amsterdam/cookie-consent)
+[![CI status](https://github.com/grrr-amsterdam/cookie-consent/workflows/CI/badge.svg)](https://github.com/grrr-amsterdam/cookie-consent/actions)
 
 ### JavaScript utility library
 
