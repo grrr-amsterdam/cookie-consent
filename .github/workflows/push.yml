@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: harmenjanssen/commit-message-validation-action@master
+      - name: Validate
         uses: harmenjanssen/commit-message-validation-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
