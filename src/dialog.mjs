@@ -12,6 +12,7 @@ const Dialog = ({ config, preferences }) => {
 
   const TYPE = config.get('type');
   const PREFIX = config.get('prefix');
+  const DIALOG_TEMPLATE = config.get('dialogTemplate');
 
   // Only allow the `acceptAllButton` when no preferences have been stored.
   const ACCEPT_ALL_BUTTON = config.get('acceptAllButton') && !preferences.hasPreferences();
@@ -20,6 +21,11 @@ const Dialog = ({ config, preferences }) => {
    * Render dialog element.
    */
   const renderDialog = () => {
+    if (DIALOG_TEMPLATE) {
+      const templateVars = { PREFIX, config };
+      return DIALOG_TEMPLATE(templateVars);
+    }
+
     return `
       <aside id="${PREFIX}" class="${PREFIX} js-cookie-bar" role="dialog" aria-live="polite" aria-describedby="${PREFIX}-description" aria-hidden="true" tabindex="0">
         <!--googleoff: all-->
@@ -43,6 +49,10 @@ const Dialog = ({ config, preferences }) => {
   const dialog = htmlToElement(renderDialog());
   const form = dialog.querySelector('form');
   const button = form.querySelector('button');
+
+  if (!form || !button) {
+    throw new Error('Missing form or button in the dialog template.');
+  }
 
   /**
    * Hide/show helpers.
