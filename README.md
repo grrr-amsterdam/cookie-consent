@@ -104,6 +104,10 @@ All options except `cookies` are optional. They will fall back to the defaults, 
       checked: false,       // The default checked state (only valid when not `required`).
     },
   ],
+  // If you need to override the dialog template (default defined in renderDialog)
+  dialogTemplate: function(templateVars) {
+    return '...'
+  },
   // Labels to provide content for the dialog.
   labels: {
     title: 'Cookies & Privacy',
