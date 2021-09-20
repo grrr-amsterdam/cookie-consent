@@ -1,6 +1,6 @@
 {
   "name": "@grrr/cookie-consent",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Cookie consent with accessible dialog, agnostic tag triggers and conditional content, script and embed hooks.",
   "keywords": [
     "cookie consent",
