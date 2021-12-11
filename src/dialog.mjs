@@ -93,7 +93,7 @@ const Dialog = ({ config, preferences }) => {
     // We compare amount of required options against checked options.
     const requiredCount = config.get('cookies').filter(c => c.required).length;
     const checkedCount = values.filter(v => v.accepted).length;
-    const userOptionsChecked = checkedCount >= requiredCount;
+    const userOptionsChecked = checkedCount > requiredCount;
     if (ACCEPT_ALL_BUTTON && TYPE === 'checkbox' && !userOptionsChecked) {
       return values.map(value => ({
         ...value,
