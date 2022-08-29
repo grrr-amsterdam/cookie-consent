@@ -3,7 +3,7 @@ $cookie-consent-dark: #000000;
 $cookie-consent-light: #ffffff;
 $cookie-consent-horizontal-padding: 25px;
 
-.cookie-consent {
+cookie-consent::part(cookie-consent) {
     overflow: hidden;
     overflow-y: auto;
     z-index: 1000;
@@ -49,7 +49,7 @@ $cookie-consent-horizontal-padding: 25px;
         border-bottom: 0;
     }
 }
-.cookie-consent[aria-hidden="true"] {
+cookie-consent::part(cookie-consent)[aria-hidden="true"] {
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
@@ -63,11 +63,11 @@ $cookie-consent-horizontal-padding: 25px;
 /**
  * Header
  */
-.cookie-consent__header {
+cookie-consent::part(cookie-consent__header) {
     padding: 20px $cookie-consent-horizontal-padding;
     font-size: 0.8em;
 }
-.cookie-consent__header h1 {
+cookie-consent::part(cookie-consent__title) {
     margin: 0 auto 0.5em;
     font-size: 20px;
     line-height: 1.2;
@@ -76,23 +76,20 @@ $cookie-consent-horizontal-padding: 25px;
         font-size: 28px;
     }
 }
-.cookie-consent__header p:last-child {
-    margin-bottom: 0;
-}
 
 /**
  * Tabs
  */
-.cookie-consent__tab-list {
+cookie-consent::part(cookie-consent__tab-list) {
     margin: 0;
     padding: 0;
     list-style-type: none;
 }
-.cookie-consent__tab-list li {
+cookie-consent::part(cookie-consent__tab-list-item) {
     margin: 0;
     border-top: 1px solid rgba($cookie-consent-dark, 0.1);
 }
-.cookie-consent__tab {
+cookie-consent::part(cookie-consent__tab) {
     display: flex;
     align-items: stretch;
 }
@@ -100,7 +97,7 @@ $cookie-consent-horizontal-padding: 25px;
 /**
  * Tab option (label with input in it) & tab toggle
  */
-.cookie-consent__option {
+cookie-consent::part(cookie-consent__option) {
     display: flex;
     flex: 1 1 auto;
     align-items: center;
@@ -108,13 +105,13 @@ $cookie-consent-horizontal-padding: 25px;
     user-select: none;
     font-size: 0.9em;
 }
-.cookie-consent__option input {
+cookie-consent::part(cookie-consent__input) {
     margin-right: 10px;
 }
-.cookie-consent__option:not([data-required="true"]):hover {
+cookie-consent::part(cookie-consent__option):not([data-required="true"]):hover {
     background: rgba($cookie-consent-dark, 0.05);
 }
-.cookie-consent__tab-toggle {
+cookie-consent::part(cookie-consent__tab-toggle) {
     position: relative;
     display: block;
     flex: 0 0 auto;
@@ -124,10 +121,10 @@ $cookie-consent-horizontal-padding: 25px;
     background: rgba($cookie-consent-dark, 0.1);
     line-height: 0;
 }
-.cookie-consent__tab-toggle:hover {
+cookie-consent::part(cookie-consent__tab-toggle):hover {
     background: rgba($cookie-consent-dark, 0.2);
 }
-.cookie-consent__tab-toggle > svg {
+cookie-consent::part(cookie-consent__tab-toggle-icon) {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -144,7 +141,7 @@ $cookie-consent-horizontal-padding: 25px;
 /**
  * Tab panel (with description)
  */
-.cookie-consent__tab-panel {
+cookie-consent::part(cookie-consent__tab-panel) {
     overflow: hidden;
     position: relative;
     transition: all 0.35s;
@@ -152,12 +149,12 @@ $cookie-consent-horizontal-padding: 25px;
 .cookie-consent__tab-panel[aria-hidden="true"] {
     display: none;
 }
-.cookie-consent__tab-description {
+cookie-consent::part(cookie-consent__tab-description) {
     padding: 20px $cookie-consent-horizontal-padding;
     background: rgba($cookie-consent-dark, 0.05);
     font-size: 0.8em;
 }
-.cookie-consent__tab-description::after {
+cookie-consent::part(cookie-consent__tab-description)::after {
     content: "";
     position: absolute;
     top: 0;
@@ -172,7 +169,7 @@ $cookie-consent-horizontal-padding: 25px;
 /**
  * Button
  */
-.cookie-consent__button {
+cookie-consent::part(cookie-consent__button) {
     width: 100%;
     min-height: 55px;
     background: $cookie-consent-dark;
@@ -185,7 +182,11 @@ $cookie-consent-horizontal-padding: 25px;
     border: 0;
     appearance: none;
 }
-.cookie-consent__button:hover,
-.cookie-consent__button:focus {
+cookie-consent::part(cookie-consent__button-text) {
+    display: block;
+    // Optically align the text.
+}
+cookie-consent::part(cookie-consent__button):hover,
+cookie-consent::part(cookie-consent__button):focus {
     background: rgba($cookie-consent-dark, 0.9);
 }

@@ -322,9 +322,9 @@
     strip-json-comments "^3.1.1"
 
 "@grrr/utils@^2.3.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@grrr/utils/-/utils-2.5.0.tgz#433eb40b1a2de5d641751dcbbeee50484be5b416"
-  integrity sha512-0q4TRQdzAiNRiuxGH2EHBCYW9sdLg7w5Q2vzD+JNjANl6n+RxdNG9CfWwirkKvggkIyjcJOzB4TJ+0ze/lHF/Q==
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/@grrr/utils/-/utils-2.5.1.tgz#7bdf5da7be3c52f01ee1fb6c7da4f7ef3e7726c6"
+  integrity sha512-idWQDtTq60Ddgo+srio7b172mnm/HpqP55H/Oi0X0oigsvnLtP6x1xlaYvN6txa+04Z9SaySeld4wUk66id5DQ==
 
 "@humanwhocodes/config-array@^0.11.6":
   version "0.11.7"
