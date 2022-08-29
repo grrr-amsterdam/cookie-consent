@@ -5,16 +5,20 @@ describe("CookieConsent", () => {
   const BAR = { id: "bar", accepted: false };
   const COOKIES = [FOO, BAR];
 
-  const cookieConsent = CookieConsent({
-    cookies: COOKIES,
-  });
+  window.customElements.define("cookie-consent", CookieConsent);
+
+  const cookieConsent = document.createElement("cookie-consent");
+
+  cookieConsent.cookies = COOKIES;
 
   test("updatePreference", () => {
     const input = [
       { id: "foo", accepted: false },
       { id: "bar", accepted: true },
     ];
+
     cookieConsent.updatePreference(input);
-    expect(cookieConsent.getPreferences("foo")).toEqual(input);
+
+    expect(cookieConsent.preferences.getAll("foo")).toEqual(input);
   });
 });

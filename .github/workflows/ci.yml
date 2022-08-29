@@ -28,7 +28,7 @@ jobs:
 
   notification:
     name: Slack notification
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     if: always()
     needs: [ci]
 
@@ -36,12 +36,22 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     steps:
-      - name: Send notification
-        uses: edge/simple-slack-notify@master
-        with:
-          channel: "#ci"
-          username: CI
-          status: ${{ (contains(needs.*.result, 'cancelled') && 'cancelled') || (contains(needs.*.result, 'failure') && 'failure') || 'success' }}
-          success_text: ":octocat: <${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}|Build #${env.GITHUB_RUN_NUMBER}> of *${env.GITHUB_REPOSITORY}@${{ github.ref_name }}* by *${env.GITHUB_ACTOR}* completed successfully."
-          failure_text: ":octocat: <${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}|Build #${env.GITHUB_RUN_NUMBER}> of *${env.GITHUB_REPOSITORY}@${{ github.ref_name }}* by *${env.GITHUB_ACTOR}* failed."
-          cancelled_text: ":octocat: <${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}|Build #${env.GITHUB_RUN_NUMBER}> of *${env.GITHUB_REPOSITORY}@${{ github.ref_name }}* by *${env.GITHUB_ACTOR}* was cancelled."
+      - run: |
+          successText=":octocat: <${{ env.GITHUB_SERVER_URL }}/${{ env.GITHUB_REPOSITORY }}/actions/runs/${{ env.GITHUB_RUN_ID }}|Versie ${{ inputs.version }}> uitgerold naar *${{ inputs.environment }}*."
+          failureText=":octocat: <${{ env.GITHUB_SERVER_URL }}/${{ env.GITHUB_REPOSITORY }}/actions/runs/${{ env.GITHUB_RUN_ID }}|Versie ${{ inputs.version }}> niet uitgerold naar *${{ inputs.environment }}*."
+          cancelledText=":octocat: <${{ env.GITHUB_SERVER_URL }}/${{ env.GITHUB_REPOSITORY }}/actions/runs/${{ env.GITHUB_RUN_ID }}|Versie ${{ inputs.version }}> uitrol naar *${{ inputs.environment }}* geannuleerd."
+          status="${{ (contains(needs.*.result, 'cancelled') && 'cancelled') || (contains(needs.*.result, 'failure') && 'failure') || 'success' }}"
+
+          if [ "$status" = 'success' ]; then
+           color='good'
+           text=$successText
+          elif [ "$status" = 'failure' ]; then
+           color='danger'
+           text=$failureText
+          elif [ "$status" = "cancelled" ]; then
+            color='warning'
+            text=$cancelledText
+          fi
+
+          curl "${{ secrets.SLACK_WEBHOOK_URL }}" -X "POST" --header "Content-Type: application/json" \
+            --data "{attachments: [{text: '$text', color: '$color'}]}"
