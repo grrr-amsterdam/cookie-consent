@@ -1,5 +1,5 @@
 import { htmlToElement } from '@grrr/utils';
-import EventDispatcher from './event-dispatcher';
+import EventDispatcher from './event-dispatcher.mjs';
 
 /**
  * Dialog tab list with cookie tabs.

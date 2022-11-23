@@ -1,6 +1,6 @@
 import { htmlToElement, preventingDefault } from '@grrr/utils';
-import EventDispatcher from './event-dispatcher';
-import DialogTabList from './dialog-tablist';
+import EventDispatcher from './event-dispatcher.mjs';
+import DialogTabList from './dialog-tablist.mjs';
 
 /**
  * Dialog which is shown to update cookie preferences.
