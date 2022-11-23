@@ -1,4 +1,4 @@
-import { supportsLocalStorage } from './utils';
+import { supportsLocalStorage } from './utils.mjs';
 
 /**
  * Store items in LocalStorage.

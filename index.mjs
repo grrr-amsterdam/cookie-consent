@@ -1,3 +1,3 @@
-import CookieConsent from './src/cookie-consent';
+import CookieConsent from './src/cookie-consent.mjs';
 
 export default CookieConsent;

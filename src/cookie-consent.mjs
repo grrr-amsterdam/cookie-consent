@@ -1,8 +1,8 @@
-import Config from './config';
-import Dialog from './dialog';
-import DomToggler from './dom-toggler';
-import EventDispatcher from './event-dispatcher';
-import Preferences from './preferences';
+import Config from './config.mjs';
+import Dialog from './dialog.mjs';
+import DomToggler from './dom-toggler.mjs';
+import EventDispatcher from './event-dispatcher.mjs';
+import Preferences from './preferences.mjs';
 
 /**
  * Main constructor, which provides the API to the outside.

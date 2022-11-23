@@ -1,5 +1,5 @@
-import { DEFAULTS } from './config-defaults';
-import { getEntryByDotString } from './utils';
+import { DEFAULTS } from './config-defaults.mjs';
+import { getEntryByDotString } from './utils.mjs';
 
 /**
  * Config getter with defaults fallback and warning when required values are missing.
