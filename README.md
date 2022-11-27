@@ -9,7 +9,7 @@
 - Customizable cookie types (identifiers, optional/required, pre-checked)
 - Conditional script tags, iframes and elements based on cookie consent and type
 
-<img src="https://user-images.githubusercontent.com/1607628/70984703-3cd84100-20bb-11ea-9fa0-0d23c49c0d94.png" alt="Screenshot of the GDPR proof cookie consent dialog from @grrr/cookie-consent with checkbox inputs" width="422"/><img src="https://user-images.githubusercontent.com/1607628/80074854-18e5aa00-854a-11ea-90db-f71ec1484a00.png" alt="Screenshot of the GDPR proof cookie consent dialog from @grrr/cookie-consent with radio inputs" width="422"/>
+<img src="https://user-images.githubusercontent.com/1607628/70984703-3cd84100-20bb-11ea-9fa0-0d23c49c0d94.png" alt="Screenshot of the GDPR proof cookie consent dialog from @grrr/cookie-consent with checkbox inputs" width="50%" style="width: 50%;"/><img src="https://user-images.githubusercontent.com/1607628/80074854-18e5aa00-854a-11ea-90db-f71ec1484a00.png" alt="Screenshot of the GDPR proof cookie consent dialog from @grrr/cookie-consent with radio inputs" width="50%" style="width: 50%;"/>
 
 ### Developed with ❤️ by [GRRR](https://grrr.nl)
 
