@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-22.04
+
+    strategy:
+      matrix:
+        node-version: [16, 18]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "${{ matrix.node-version }}.x"
+          cache: "yarn"
+          cache-dependency-path: yarn.lock
+      - run: yarn install
+      - run: yarn run lint
+      - run: yarn run test
+      - run: yarn run sass styles/*
+
+  notification:
+    name: Slack notification
+    runs-on: ubuntu-22.04
+    if: always()
+    needs: [ci]
+
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    steps:
+      - name: Send notification
+        uses: edge/simple-slack-notify@master
+        with:
+          channel: "#ci"
+          username: CI
+          status: ${{ (contains(needs.*.result, 'cancelled') && 'cancelled') || (contains(needs.*.result, 'failure') && 'failure') || 'success' }}
+          success_text: ":octocat: <${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}|Build #${env.GITHUB_RUN_NUMBER}> of *${env.GITHUB_REPOSITORY}@${{ github.ref_name }}* by *${env.GITHUB_ACTOR}* completed successfully."
+          failure_text: ":octocat: <${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}|Build #${env.GITHUB_RUN_NUMBER}> of *${env.GITHUB_REPOSITORY}@${{ github.ref_name }}* by *${env.GITHUB_ACTOR}* failed."
+          cancelled_text: ":octocat: <${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}|Build #${env.GITHUB_RUN_NUMBER}> of *${env.GITHUB_REPOSITORY}@${{ github.ref_name }}* by *${env.GITHUB_ACTOR}* was cancelled."
