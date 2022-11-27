@@ -1,77 +1,12 @@
-name: CI
-
-on:
-  push:
-
-env:
-  FORCE_COLOR: true # yarn ansi output
-
+on: push
+name: Validate commit message
 jobs:
-  validate:
-    name: Validate commit message
+  build:
+    name: harmenjanssen/commit-message-validation-action@master
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Validate
-        uses: harmenjanssen/commit-message-validation-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  tests:
-    name: Tests
-    runs-on: ubuntu-22.04
-
-    strategy:
-      matrix:
-        node_version:
-          - 10
-          - 12
-          - 14
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node_version }}
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v2
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
-      - run: yarn install
-      - run: yarn lint
-      - run: yarn test
-      - run: yarn run node-sass styles/*
-
-  notification:
-    name: Slack notification
-    runs-on: ubuntu-22.04
-    if: always()
-    needs: [validate, tests]
-
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-    steps:
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
-      - name: Send notification
-        uses: edge/simple-slack-notify@master
-        with:
-          channel: "#ci"
-          username: CI
-          status: ${{ (contains(needs.*.result, 'cancelled') && 'cancelled') || (contains(needs.*.result, 'failure') && 'failure') || 'success' }}
-          success_text: ":octocat: <${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}|Build #${env.GITHUB_RUN_NUMBER}> of *${env.GITHUB_REPOSITORY}@${{ steps.extract_branch.outputs.branch }}* by *${env.GITHUB_ACTOR}* completed successfully."
-          failure_text: ":octocat: <${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}|Build #${env.GITHUB_RUN_NUMBER}> of *${env.GITHUB_REPOSITORY}@${{ steps.extract_branch.outputs.branch }}* by *${env.GITHUB_ACTOR}* failed."
-          cancelled_text: ":octocat: <${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}|Build #${env.GITHUB_RUN_NUMBER}> of *${env.GITHUB_REPOSITORY}@${{ steps.extract_branch.outputs.branch }}* by *${env.GITHUB_ACTOR}* was cancelled."
+    - uses: actions/checkout@v3
+    - name: harmenjanssen/commit-message-validation-action@master
+      uses: harmenjanssen/commit-message-validation-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
