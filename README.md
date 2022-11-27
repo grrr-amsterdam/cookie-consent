@@ -82,7 +82,7 @@ Conditionally show or hide elements. Add the `data-cookie-consent-<state>`-attri
 <div data-cookie-consent-rejected="marketing" hidden>Rejected</div>
 ```
 
-Notes: 
+Notes:
 
 - When hiding, the module will add `aria-hidden="true"` and `style="display: none;"` to remove it from the DOM.
 - When showing, the module will remove any inline set `display` style, along with any `hidden` or `aria-hidden` attributes.
@@ -100,7 +100,7 @@ All options except `cookies` are optional. They will fall back to the defaults, 
   appendDelay: 500,         // The delay after which the cookie consent should be appended.
   acceptAllButton: false,   // Nudge users to accept all cookies when nothing is selected.
                             // Will select all checkboxes, or the top radio button.
-  cookies: [                // Array with cookie types. 
+  cookies: [                // Array with cookie types.
     {
       id: 'marketing',      // The unique identifier of the cookie type.
       label: 'Marketing',   // The label used in the dialog.
@@ -209,7 +209,7 @@ const acceptedMarketing = cookieConsent.isAccepted('marketing'); // => true, fal
 Will return an array with preferences per cookie type.
 
 ```js
-const preferences = cookieConsent.getPreferences(); 
+const preferences = cookieConsent.getPreferences();
 
 // [
 //   {
@@ -235,7 +235,7 @@ cookieConsent.on('event', eventHandler);
 
 ### updatePreference(cookies: array)
 
-Update cookies programmatically. 
+Update cookies programmatically.
 
 By updating cookies programmatically, the event handler will receive an update method.
 
@@ -278,8 +278,8 @@ Example:
 cookieConsent.on('update', cookies => {
   const accepted = cookies.filter(cookie => cookie.accepted);
   const dataLayer = window.dataLayer || [];
-  accepted.forEach(cookie => dataLayer.push({ 
-    event: 'cookieConsent', 
+  accepted.forEach(cookie => dataLayer.push({
+    event: 'cookieConsent',
     cookieType: cookie.id,
   }));
 });
@@ -291,9 +291,9 @@ No styling is being applied by the JavaScript module. However, there is a defaul
 
 ### Stylesheet
 
-View the [base stylesheet](https://github.com/grrr-amsterdam/cookie-consent/tree/master/styles/cookie-consent.scss). 
+View the [base stylesheet](https://github.com/grrr-amsterdam/cookie-consent/tree/master/styles/cookie-consent.scss).
 
-Note: no vendor prefixes are applied. We recommend using something like [Autoprefixer](https://github.com/postcss/autoprefixer) to do that automatically. 
+Note: no vendor prefixes are applied. We recommend using something like [Autoprefixer](https://github.com/postcss/autoprefixer) to do that automatically.
 
 ### Interface
 
