@@ -1,12 +1,12 @@
-on: push
+on:
+  push:
 name: Validate commit message
 jobs:
   build:
-    name: harmenjanssen/commit-message-validation-action@master
+    name: Validate
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: harmenjanssen/commit-message-validation-action@master
-      uses: harmenjanssen/commit-message-validation-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Validate
+        uses: harmenjanssen/commit-message-validation-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
