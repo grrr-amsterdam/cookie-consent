@@ -122,7 +122,7 @@ export default class Dialog extends HTMLElement {
           ${this.data.description}
         </header>
         <form part="${this.config.prefix}__form">
-          <button part="${this.config.prefix}__button" class="${this.config.prefix}__button" aria-label="${this.data.description}">
+          <button part="${this.config.prefix}__button" class="${this.config.prefix}__button">
             <span part="${this.config.prefix}__button-text">${this.data.defaultbuttonLabel}</span>
           </button>
         </form>
