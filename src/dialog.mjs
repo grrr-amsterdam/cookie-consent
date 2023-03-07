@@ -30,7 +30,7 @@ const Dialog = ({ config, preferences }) => {
       <aside id="${PREFIX}" class="${PREFIX} js-cookie-bar" role="dialog" aria-live="polite" aria-describedby="${PREFIX}-description" aria-hidden="true" tabindex="0">
         <!--googleoff: all-->
         <header class="${PREFIX}__header" id="${PREFIX}-description">
-          <h1>${config.get('labels.title')}</h1>
+          <h2>${config.get('labels.title')}</h2>
           ${config.get('labels.description')}
         </header>
         <form>
