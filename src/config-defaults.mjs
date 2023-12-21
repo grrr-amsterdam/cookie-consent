@@ -1,6 +1,6 @@
 export const DEFAULTS = {
   type: 'checkbox',
-  prefix: 'cookie-consent',
+  prefix: 'wookie-consent',
   append: true,
   appendDelay: 500,
   acceptAllButton: false,
