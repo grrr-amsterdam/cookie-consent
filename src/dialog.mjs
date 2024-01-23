@@ -26,27 +26,39 @@ const Dialog = ({ config, preferences }) => {
       return DIALOG_TEMPLATE(templateVars);
     }
 
-    return `
-      <aside id="${PREFIX}" class="${PREFIX} js-cookie-bar" role="dialog" aria-live="polite" aria-describedby="${PREFIX}-description" aria-hidden="true" tabindex="0">
-        <!--googleoff: all-->
-        <header class="${PREFIX}__header" id="${PREFIX}-description">
-          <h2>${config.get('labels.title')}</h2>
-          ${config.get('labels.description')}
-        </header>
-        <form>
-          <button class="${PREFIX}__button" aria-label="${config.get('labels.aria.button')}">
-            <span>${config.get('labels.button.default')}</span>
-          </button>
-        </form>
-        <!--googleon: all-->
-      </aside>
-    `;
+    const template = `
+    <aside id="${PREFIX}" class="${PREFIX} js-cookie-bar" role="dialog" aria-live="polite" aria-describedby="${PREFIX}-description" aria-hidden="true" tabindex="0">
+      <!--googleoff: all-->
+      <header class="${PREFIX}__header" id="${PREFIX}-description">
+        <h1>${config.get('labels.title')}</h1>
+        ${config.get('labels.description')}
+      </header>
+      <form>
+        <button class="${PREFIX}__button" aria-label="${config.get('labels.aria.button')}">
+          <span>${config.get('labels.button.default')}</span>
+        </button>
+      </form>
+      <!--googleon: all-->
+    </aside>`;
+
+    const dialogElement = htmlToElement(template);
+
+    dialogElement.insertAdjacentHTML('afterbegin', `
+    <style>
+      @media print {
+        .${PREFIX} {
+          display: none;
+        }
+      }
+    </style>`);
+
+    return dialogElement;
   };
 
   /**
    * Dialog and form elements.
    */
-  const dialog = htmlToElement(renderDialog());
+  const dialog = renderDialog();
   const form = dialog.querySelector('form');
   const button = form.querySelector('button');
 
