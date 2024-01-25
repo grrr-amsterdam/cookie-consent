@@ -139,6 +139,11 @@ export default class Dialog extends HTMLElement {
         pointer-events: none;
         transform: translate(0, 100px);
       }
+      @media print {
+        .${this.config.prefix} {
+          display: none;
+        }
+      }
     </style>`);
 
     const formElement = dialogElement.lastElementChild;
