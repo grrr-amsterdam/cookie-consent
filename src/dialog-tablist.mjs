@@ -1,21 +1,25 @@
-import { htmlToElement } from '@grrr/utils';
-import EventDispatcher from './event-dispatcher.mjs';
+import { htmlToElement } from "@grrr/utils";
+import EventDispatcher from "./event-dispatcher";
+
+import Config from "./config";
+import Preferences from "./preferences";
 
 /**
  * Dialog tab list with cookie tabs.
  */
-const DialogTabList = ({ config, preferences }) => {
-
+const DialogTabList = (cookieInformation) => {
   const events = EventDispatcher();
 
-  const TYPE = config.get('type');
-  const PREFIX = config.get('prefix');
+  const TYPE = Config().get("type");
+  const PREFIX = Config().get("prefix");
 
   /**
    * Render cookie tabs.
    */
-  const renderTab = ({ id, label, description, required, checked, accepted }, index) => {
-
+  const renderTab = (
+    { id, label, description, required, checked, accepted },
+    index
+  ) => {
     /**
      * Check if the checkbox should be checked:
      *
@@ -24,37 +28,53 @@ const DialogTabList = ({ config, preferences }) => {
      *    `required: false`, because of #3)
      * 3. Use the `checked` setting.
      */
-    const shouldBeChecked = typeof accepted !== 'undefined'
+    const shouldBeChecked = typeof accepted !== "undefined"
       ? accepted
-      : required === true
-        ? required
+      : required === true ? required
         : checked;
 
     return `
-      <li role="presentation">
-        <header class="${PREFIX}__tab">
-          <label class="${PREFIX}__option" data-required="${required}">
-            <input type="${TYPE === 'radio' ? 'radio' : 'checkbox'}" name="${PREFIX}-input" value="${id}" ${shouldBeChecked ? 'checked' : ''} ${required && TYPE !== 'radio' ? 'disabled' : ''}>
+      <style>
+        .${PREFIX}__tab-panel[aria-hidden="true"] {
+          display: none;
+        }
+        .cookie-consent__tab-toggle[aria-selected="true"] > svg {
+          transform: scaleY(-1);
+        }
+      </style>
+      <li part="${PREFIX}__tab-list-item" role="presentation">
+        <header part="${PREFIX}__tab" class="${PREFIX}__tab">
+          <label part="${PREFIX}__option" class="${PREFIX}__option" data-required="${required}">
+            <input 
+              part="${PREFIX}__input"
+              type="${TYPE === "radio" ? "radio" : "checkbox"}" 
+              name="${PREFIX}-input" value="${id}" 
+              ${shouldBeChecked ? "checked" : ""} 
+              ${required && TYPE !== "radio" ? "disabled" : ""}>
             <span>${label}</span>
           </label>
           <a
+            part="${PREFIX}__tab-toggle"
             class="${PREFIX}__tab-toggle"
             role="tab"
             id="${PREFIX}-tab-${index}"
             href="#${PREFIX}-tabpanel-${index}"
             aria-controls="${PREFIX}-tabpanel-${index}"
             aria-selected="false"
-            aria-label="${config.get('labels.aria.tabToggle')}">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 16"><path d="M21.5.5l3 3.057-12 11.943L.5 3.557 3.5.5l9 9z"/></svg>
+            aria-label="${Config().get("labels.aria.tabToggle")}">
+            <svg part="${PREFIX}__tab-toggle-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 16"><path d="M21.5.5l3 3.057-12 11.943L.5 3.557 3.5.5l9 9z"/></svg>
           </a>
         </header>
         <div
+          part="${PREFIX}__tab-panel"
           class="${PREFIX}__tab-panel"
           role="tabpanel"
           id="${PREFIX}-tabpanel-${index}"
           aria-labelledby="${PREFIX}-tab-${index}"
           aria-hidden="true">
-          <div class="${PREFIX}__tab-description">
+          <div 
+            part="${PREFIX}__tab-description"
+            class="${PREFIX}__tab-description">
             ${description}
           </div>
         </div>
@@ -66,16 +86,17 @@ const DialogTabList = ({ config, preferences }) => {
    * Render cookie tab list.
    */
   const renderTabList = () => {
-    const cookies = config.get('cookies', true) || [];
-    const cookiesWithState = cookies.map(cookieType => ({
+    const cookies = cookieInformation || [];
+
+    const cookiesWithState = cookies.map((cookieType) => ({
       ...cookieType,
-      accepted: preferences.get(cookieType.id)
-        ? preferences.get(cookieType.id).accepted
+      accepted: Preferences().get(cookieType.id)
+        ? Preferences().get(cookieType.id).accepted
         : undefined,
     }));
     return `
-      <ul class="${PREFIX}__tab-list" role="tablist" aria-label="${config.get('labels.aria.tabList')}">
-        ${cookiesWithState.map(renderTab).join('')}
+      <ul part="${PREFIX}__tab-list" class="${PREFIX}__tab-list" role="tablist" aria-label="${Config().get("labels.aria.tabList")}">
+        ${cookiesWithState.map(renderTab).join("")}
       </ul>
     `;
   };
@@ -89,8 +110,8 @@ const DialogTabList = ({ config, preferences }) => {
    * Simple method to get values from cookie checkboxes.
    */
   const getValues = () => {
-    const inputs = [...tabList.querySelectorAll('input')];
-    return inputs.map(input => ({
+    const inputs = [...tabList.querySelectorAll("input")];
+    return inputs.map((input) => ({
       id: input.value,
       accepted: input.checked,
     }));
@@ -100,9 +121,10 @@ const DialogTabList = ({ config, preferences }) => {
    * Handle tab selection.
    */
   const selectTab = ({ tabs, panels, targetTab }) => {
-    const controls = targetTab ? targetTab.getAttribute('aria-controls') : '';
-    tabs.forEach(tab => tab.setAttribute('aria-selected', tab === targetTab));
-    panels.forEach(panel => panel.setAttribute('aria-hidden', controls !== panel.id));
+    const controls = targetTab ? targetTab.getAttribute("aria-controls") : "";
+    tabs.forEach((tab) => tab.setAttribute("aria-selected", tab === targetTab));
+    panels.forEach((panel) =>
+      panel.setAttribute("aria-hidden", controls !== panel.id));
   };
 
   /**
@@ -111,10 +133,10 @@ const DialogTabList = ({ config, preferences }) => {
   const attachTabClickListeners = () => {
     const tabs = [...tabList.querySelectorAll('[role="tab"]')];
     const panels = [...tabList.querySelectorAll('[role="tabpanel"]')];
-    tabs.forEach(tab => {
-      tab.addEventListener('click', e => {
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", (e) => {
         e.preventDefault();
-        const targetTab = tab.getAttribute('aria-selected') === 'true' ? null : tab;
+        const targetTab = tab.getAttribute("aria-selected") === "true" ? null : tab;
         selectTab({ tabs, panels, targetTab });
       });
     });
@@ -128,7 +150,6 @@ const DialogTabList = ({ config, preferences }) => {
     element: tabList,
     getValues,
   };
-
 };
 
 export default DialogTabList;
