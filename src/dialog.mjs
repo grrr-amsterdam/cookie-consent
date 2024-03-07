@@ -122,7 +122,7 @@ export default class Dialog extends HTMLElement {
           ${this.data.description}
         </header>
         <form part="${this.config.prefix}__form">
-          <button part="${this.config.prefix}__button" class="${this.config.prefix}__button">
+          <button part="${this.config.prefix}__button" class="${this.config.prefix}__button" aria-label="${this.data.description}">
             <span part="${this.config.prefix}__button-text">${this.data.defaultbuttonLabel}</span>
           </button>
         </form>
@@ -139,42 +139,9 @@ export default class Dialog extends HTMLElement {
         pointer-events: none;
         transform: translate(0, 100px);
       }
-      @media print {
-        .${this.config.prefix} {
-          display: none;
-        }
-      }
     </style>`);
 
     const formElement = dialogElement.lastElementChild;
-    const template = `
-    <aside id="${PREFIX}" class="${PREFIX} js-cookie-bar" role="dialog" aria-live="polite" aria-describedby="${PREFIX}-description" aria-hidden="true" tabindex="0">
-      <!--googleoff: all-->
-      <header class="${PREFIX}__header" id="${PREFIX}-description">
-        <h1>${config.get('labels.title')}</h1>
-        ${config.get('labels.description')}
-      </header>
-      <form>
-        <button class="${PREFIX}__button" aria-label="${config.get('labels.aria.button')}">
-          <span>${config.get('labels.button.default')}</span>
-        </button>
-      </form>
-      <!--googleon: all-->
-    </aside>`;
-
-    const dialogElement = htmlToElement(template);
-
-    dialogElement.insertAdjacentHTML('afterbegin', `
-    <style>
-      @media print {
-        .${PREFIX} {
-          display: none;
-        }
-      }
-    </style>`);
-
-    return dialogElement;
-  };
 
     formElement.addEventListener("submit", preventingDefault(this.submitHandler.bind(this)));
 
