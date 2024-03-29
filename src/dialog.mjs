@@ -69,7 +69,7 @@ export default class Dialog extends HTMLElement {
       title: Config().get("labels.title"),
       description: Config().get("labels.description"),
       saveButtonText: Config().get("labels.aria.button"),
-      defaultbuttonLabel: Config().get("labels.button.default"),
+      defaultButtonLabel: Config().get("labels.button.default"),
       acceptAllButton: Config().get("acceptAllButton") && !Preferences().hasPreferences(),
     };
     // custom content from data-attributes
@@ -87,7 +87,7 @@ export default class Dialog extends HTMLElement {
         ? fallbackContent.description : customContent.description,
       saveButtonText: customContent.saveButtonText === null
         ? fallbackContent.saveButtonText : customContent.saveButtonText,
-      defaultbuttonLabel: fallbackContent.defaultbuttonLabel,
+      defaultButtonLabel: fallbackContent.defaultButtonLabel,
       acceptAllButton: fallbackContent.acceptAllButton,
       cookies,
     };
@@ -123,7 +123,7 @@ export default class Dialog extends HTMLElement {
         </header>
         <form part="${this.config.prefix}__form">
           <button part="${this.config.prefix}__button" class="${this.config.prefix}__button" aria-label="${this.data.description}">
-            <span part="${this.config.prefix}__button-text">${this.data.defaultbuttonLabel}</span>
+            <span part="${this.config.prefix}__button-text">${this.data.defaultButtonLabel}</span>
           </button>
         </form>
       <!--googleon: all-->
