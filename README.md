@@ -28,27 +28,18 @@ Note: depending on your setup [additional configuration might be needed](https:/
 
 ## Usage
 
-Import the module and initialize it:
+Import the module and register it as a custom element:
 
 ```js
 import CookieConsent from '@grrr/cookie-consent';
 
-const cookieConsent = CookieConsent({
-  cookies: [
-    {
-      id: 'functional',
-      label: 'Functional',
-      description: 'Lorem ipsum.',
-      required: true,
-    },  
-    {
-      id: 'marketing',
-      label: 'Marketing',
-      description: 'Lorem ipsum.',
-      checked: true,
-    },
-  ],
-});
+window.customElements.define("cookie-consent", cookieConsent);
+```
+
+Once registered, you can add the cookie-consent element to your HTML:
+
+```html
+<cookie-consent />
 ```
 
 ### Conditional scripts
@@ -89,7 +80,27 @@ Notes:
 
 ## Options
 
+To use the options, add them as data attributes to the custom element:
+
 All options except `cookies` are optional. They will fall back to the defaults, which are listed here:
+
+```jsx
+<cookie-consent
+    data-title="Cookies & Privacy" // The title of the dialog.
+    data-description="<p>This site makes use of third-party cookies. Read more in our <a href="/privacy-policy">privacy policy</a>.</p>"  // The description of the dialog.
+    data-saveButtonText="Save preferences" // The save button label.
+    data-cookies={[ // Array with cookie types.
+        {
+            "id": "marketing", // The unique identifier of the cookie type.
+            "label": "Marketing", // The label used in the dialog.
+            "description": "...", // The description used in the dialog.
+            "required": false, // Mark a cookie required (ignored when type is `radio`).
+            "checked": true, // The default checked state (only valid when not `required`).
+        },
+    ]}
+/>
+
+```
 
 ```js
 {
@@ -138,9 +149,8 @@ All options except `cookies` are optional. They will fall back to the defaults, 
 ## API
 
 - [CookieConsent()](#cookieconsentoptions-object)
-- [getDialog()](#getdialog)
-- [showDialog()](#showdialog)
-- [hideDialog()](#hidedialog)
+- [show()](#showdialog)
+- [hide()](#hidedialog)
 - [isAccepted()](#isacceptedid-string)
 - [getPreferences()](#getpreferences)
 - [on()](#on)
@@ -148,49 +158,32 @@ All options except `cookies` are optional. They will fall back to the defaults, 
 
 ### CookieConsent(options: object)
 
-Will create a new instance.
 
-```js
-const cookieConsent = CookieConsent({
-    cookies: [
-        // ...
-    ]
-});
-```
-
-To make the instance globally available (for instance to add event listeners elsewhere), add it as a custom element after the instance has been created:
+To make use the (for instance to add event listeners elsewhere), add it as a custom element after the instance has been created:
 
 ```js
 window.customElements.define("cookie-consent", cookieConsent);
 ```
 
-### getDialog()
-
-Will fetch the dialog element, for example to append it at a custom DOM position.
-
-```js
-document.body.insertBefore(cookieConsent.getDialog(), document.body.firstElementChild);
-```
-
-### showDialog()
+### show()
 
 Will show the dialog element, for example to show it when triggered to change settings.
 
 ```js
 el.addEventListener('click', e => {
   e.preventDefault();
-  cookieConsent.showDialog();
+  cookieConsent.show();
 });
 ```
 
-### hideDialog()
+### hide()
 
 Will hide the dialog element.
 
 ```js
 el.addEventListener('click', e => {
   e.preventDefault();
-  cookieConsent.hideDialog();
+  cookieConsent.hide();
 });
 ```
 
