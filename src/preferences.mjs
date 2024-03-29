@@ -1,5 +1,5 @@
 import { parseJson } from "@grrr/utils";
-import Storage from "./storage";
+import Storage from "./storage.mjs";
 
 const KEY_SUFFIX = "preferences";
 

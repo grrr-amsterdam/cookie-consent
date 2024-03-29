@@ -1,8 +1,8 @@
 import { htmlToElement } from "@grrr/utils";
-import EventDispatcher from "./event-dispatcher";
+import EventDispatcher from "./event-dispatcher.mjs";
 
-import Config from "./config";
-import Preferences from "./preferences";
+import Config from "./config.mjs";
+import Preferences from "./preferences.mjs";
 
 /**
  * Dialog tab list with cookie tabs.
@@ -45,11 +45,11 @@ const DialogTabList = (cookieInformation) => {
       <li part="${PREFIX}__tab-list-item" role="presentation">
         <header part="${PREFIX}__tab" class="${PREFIX}__tab">
           <label part="${PREFIX}__option" class="${PREFIX}__option" data-required="${required}">
-            <input 
+            <input
               part="${PREFIX}__input"
-              type="${TYPE === "radio" ? "radio" : "checkbox"}" 
-              name="${PREFIX}-input" value="${id}" 
-              ${shouldBeChecked ? "checked" : ""} 
+              type="${TYPE === "radio" ? "radio" : "checkbox"}"
+              name="${PREFIX}-input" value="${id}"
+              ${shouldBeChecked ? "checked" : ""}
               ${required && TYPE !== "radio" ? "disabled" : ""}>
             <span>${label}</span>
           </label>
@@ -72,7 +72,7 @@ const DialogTabList = (cookieInformation) => {
           id="${PREFIX}-tabpanel-${index}"
           aria-labelledby="${PREFIX}-tab-${index}"
           aria-hidden="true">
-          <div 
+          <div
             part="${PREFIX}__tab-description"
             class="${PREFIX}__tab-description">
             ${description}

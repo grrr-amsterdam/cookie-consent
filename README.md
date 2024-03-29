@@ -158,12 +158,10 @@ const cookieConsent = CookieConsent({
 });
 ```
 
-To make the instance globally available (for instance to add event listeners elsewhere), add it as a global after the instance has been created:
+To make the instance globally available (for instance to add event listeners elsewhere), add it as a custom element after the instance has been created:
 
 ```js
-const cookieConsent = CookieConsent();
-
-window.CookieConsent = cookieConsent;
+window.customElements.define("cookie-consent", cookieConsent);
 ```
 
 ### getDialog()

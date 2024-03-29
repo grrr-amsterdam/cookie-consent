@@ -12,12 +12,12 @@
 ] */
 
 import { htmlToElement, preventingDefault } from "@grrr/utils";
-import EventDispatcher from "./event-dispatcher";
-import DialogTabList from "./dialog-tablist";
-import DomToggler from "./dom-toggler";
+import EventDispatcher from "./event-dispatcher.mjs";
+import DialogTabList from "./dialog-tablist.mjs";
+import DomToggler from "./dom-toggler.mjs";
 
-import Config from "./config";
-import Preferences from "./preferences";
+import Config from "./config.mjs";
+import Preferences from "./preferences.mjs";
 
 /**
  * Dialog which is shown to update cookie preferences.
