@@ -87,7 +87,8 @@ All options except `cookies` are optional. They will fall back to the defaults, 
 ```jsx
 <cookie-consent
     data-title="Cookies & Privacy" // The title of the dialog.
-    data-description="<p>This site makes use of third-party cookies. Read more in our <a href="/privacy-policy">privacy policy</a>.</p>"  // The description of the dialog.
+    data-description="<p>This site makes use of third-party cookies.
+    Read more in our <a href="/privacy-policy">privacy policy</a>.</p>"  // The description of the dialog.
     data-saveButtonText="Save preferences" // The save button label.
     data-cookies={[ // Array with cookie types.
         {
