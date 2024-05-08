@@ -42,28 +42,6 @@ Once registered, you can add the cookie-consent element to your HTML:
 <cookie-consent />
 ```
 
-### Conditional scripts
-
-Conditionally show `script` tags. Add the `data-cookie-consent`-attribute with the id of the required cookie type, and disable the script by setting the `type` to `text/plain`:
-
-```html
-// External script.
-<script src="https://..." data-cookie-consent="marketing" type="text/plain"></script>
-
-// Inline script.
-<script data-cookie-consent="marketing" type="text/plain">
-    alert('hello world');
-</script>
-```
-
-### Conditional iframe embeds
-
-Conditionally show or hide `iframe` embed. Add the `data-cookie-consent`-attribute with the id of the required cookie consent type, and disable the iframe renaming the `src`-attribute to `data-src`:
-
-```html
-<iframe data-cookie-consent="marketing" data-src="https://..."></iframe>
-```
-
 ### Conditional content
 
 Conditionally show or hide elements. Add the `data-cookie-consent-<state>`-attribute with the id of the required cookie consent type. There are two types of state: `accepted` and `rejected`.
@@ -82,9 +60,7 @@ Notes:
 
 To use the options, add them as data attributes to the custom element:
 
-All options except `cookies` are optional. They will fall back to the defaults, which are listed here:
-
-```jsx
+```js
 <cookie-consent
     data-title="Cookies & Privacy" // The title of the dialog.
     data-description="<p>This site makes use of third-party cookies.
@@ -102,6 +78,8 @@ All options except `cookies` are optional. They will fall back to the defaults, 
 />
 
 ```
+
+All options except `cookies` are optional. They will fall back to the defaults, which are listed here:
 
 ```js
 {
@@ -158,7 +136,6 @@ All options except `cookies` are optional. They will fall back to the defaults, 
 - [updatePreference()](#updatePreferencecookies-array)
 
 ### CookieConsent(options: object)
-
 
 To make use the (for instance to add event listeners elsewhere), add it as a custom element after the instance has been created:
 
@@ -281,9 +258,77 @@ cookieConsent.on('update', cookies => {
 
 No styling is being applied by the JavaScript module. However, there is a default stylesheet in the form of a [Sass](https://sass-lang.com/) module which can easily be added and customized to your project and its needs.
 
-### Stylesheet
+You have to use `::parts` pseudo-element to style the dialog and its elements due to the Shadow DOM encapsulation. You can style the dialog and its elements by using the following parts:
 
+```scss
+cookie-consent::part(cookie-consent) {
+  // Styles for the cookie consent dialog    
+}
+
+/**
+ * Header
+ */
+wookie-consent::part(cookie-consent__header) {
+  // Styles for the cookie consent header    
+}
+cookie-consent::part(cookie-consent__title) {
+  // Styles for the cookie consent title   
+}
+
+/**
+ * Tabs
+ */
+wookie-consent::part(cookie-consent__tab-list) {
+    // Styles for the cookie consent tab list    
+}
+wookie-consent::part(cookie-consent__tab-list-item) {
+    // Styles for the cookie consent tab list item
+}
+cookie-consent::part(cookie-consent__tab) {
+  // Styles for the cookie consent tabs
+}
+
+/**
+ * Tab option (label with input in it) & tab toggle
+ */
+cookie-consent::part(cookie-consent__option) {
+  // Styles for the tab option label    
+}
+cookie-consent::part(cookie-consent__input) {
+  // Styles for the tab option input    
+}
+cookie-consent::part(cookie-consent__tab-toggle) {
+  // Styles for the tab toggle
+}
+cookie-consent::part(cookie-consent__tab-toggle-icon) {
+  // Styles for the tab toggle icon   
+}
+
+/**
+ * Tab panel (with description)
+ */
+cookie-consent::part(cookie-consent__tab-panel) {
+  // Styles for the tab panel    
+}
+
+cookie-consent::part(cookie-consent__tab-description) {
+  // Styles for the tab description
+}
+
+/**
+ * Button
+ */
+cookie-consent::part(cookie-consent__button) {
+  // styles for the consent button    
+}
+cookie-consent::part(cookie-consent__button-text) {
+  // Styles for the consent button text    
+}
+```
+
+### Stylesheet
 View the [base stylesheet](https://github.com/grrr-amsterdam/cookie-consent/tree/master/styles/cookie-consent.scss).
+
 
 Note: no vendor prefixes are applied. We recommend using something like [Autoprefixer](https://github.com/postcss/autoprefixer) to do that automatically.
 
