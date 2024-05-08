@@ -1,3 +1,3 @@
-import CookieConsent from './src/cookie-consent.mjs';
+import Dialog from "./src/dialog.mjs";
 
-export default CookieConsent;
+export default Dialog;

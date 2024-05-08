@@ -1,10 +1,10 @@
-import { DEFAULTS } from './config-defaults.mjs';
-import { getEntryByDotString } from './utils.mjs';
+import { DEFAULTS } from "./config-defaults.mjs";
+import { getEntryByDotString } from "./utils.mjs";
 
 /**
  * Config getter with defaults fallback and warning when required values are missing.
  */
-const Config = settings => {
+const Config = (settings) => {
   return {
     get: (entryString, required = false) => {
       const value = getEntryByDotString(settings, entryString);
@@ -12,7 +12,9 @@ const Config = settings => {
         console.warn(`Required setting '${entryString}' is missing.`);
         return undefined;
       }
-      return value === undefined ? getEntryByDotString(DEFAULTS, entryString) : value;
+      return value === undefined
+        ? getEntryByDotString(DEFAULTS, entryString)
+        : value;
     },
   };
 };
