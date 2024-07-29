@@ -42,7 +42,7 @@ const DialogTabList = (cookieInformation) => {
           transform: scaleY(-1);
         }
       </style>
-      <li part="${PREFIX}__tab-list-item" role="presentation">
+      <li part="${PREFIX}__tab-list-item" role="listitem">
         <header part="${PREFIX}__tab" class="${PREFIX}__tab">
           <label part="${PREFIX}__option" class="${PREFIX}__option" data-required="${required}">
             <input
@@ -95,7 +95,7 @@ const DialogTabList = (cookieInformation) => {
         : undefined,
     }));
     return `
-      <ul part="${PREFIX}__tab-list" class="${PREFIX}__tab-list" role="tablist" aria-label="${Config().get("labels.aria.tabList")}">
+      <ul part="${PREFIX}__tab-list" class="${PREFIX}__tab-list" role="list" aria-label="${Config().get("labels.aria.tabList")}">
         ${cookiesWithState.map(renderTab).join("")}
       </ul>
     `;

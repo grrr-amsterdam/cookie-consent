@@ -122,7 +122,7 @@ export default class Dialog extends HTMLElement {
     this.tabList.init();
 
     const template = `
-    <aside part="${this.config.prefix}" id="${this.config.prefix}" class="${this.config.prefix} js-cookie-bar" role="dialog" aria-live="polite" aria-describedby="${this.config.prefix}-description" aria-hidden="true" tabindex="0">
+    <aside part="${this.config.prefix}" id="${this.config.prefix}" class="${this.config.prefix} js-cookie-bar" role="dialog" aria-label="dialog" aria-live="polite" aria-describedby="${this.config.prefix}-description" aria-hidden="true" tabindex="0">
       <!--googleoff: all-->
         <header part="${this.config.prefix}__header" class="${this.config.prefix}__header" id="${this.config.prefix}-description">
           <h1 part="${this.config.prefix}__title">${this.data.title}</h1>
