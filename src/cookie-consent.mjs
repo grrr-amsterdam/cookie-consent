@@ -121,7 +121,7 @@ export default class Dialog extends HTMLElement {
     this.tabList.init();
 
     const template = `
-    <aside part="${this.config.prefix}" id="${this.config.prefix}" class="${this.config.prefix} js-cookie-bar" aria-role="dialog" aria-live="polite" aria-labelledby="${this.config.prefix}__title" aria-describedby="${this.config.prefix}-description" aria-hidden="true" tabindex="0">
+    <aside part="${this.config.prefix}" id="${this.config.prefix}" class="${this.config.prefix} js-cookie-bar" role="dialog" aria-live="polite" aria-labelledby="${this.config.prefix}__title" aria-describedby="${this.config.prefix}-description" aria-hidden="true" tabindex="0">
       <!--googleoff: all-->
         <header part="${this.config.prefix}__header" class="${this.config.prefix}__header" id="${this.config.prefix}-description">
           <h1 part="${this.config.prefix}__title" id="${this.config.prefix}__title">${this.data.title}</h1>
@@ -185,7 +185,9 @@ export default class Dialog extends HTMLElement {
     const checkedCount = values.filter((v) => v.accepted).length;
     const userOptionsChecked = checkedCount >= requiredCount;
     if (
-      this.data.acceptAllButton && this.config.type === "checkbox" && !userOptionsChecked
+      this.data.acceptAllButton &&
+      this.config.type === "checkbox" &&
+      !userOptionsChecked
     ) {
       return values.map((value) => ({
         ...value,
@@ -248,7 +250,8 @@ export default class Dialog extends HTMLElement {
     // Loop through arrayfiedTabListChildren
     tabListChildren.forEach((input) => {
       // Find all input elements
-      const inputElement = input.firstElementChild.firstElementChild.firstElementChild;
+      const inputElement =
+        input.firstElementChild.firstElementChild.firstElementChild;
       // Loop through updated cookies
       this.cookies.forEach((cookie) => {
         // set the checked state to the updated cookie state
