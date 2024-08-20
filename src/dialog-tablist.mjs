@@ -42,7 +42,7 @@ const DialogTabList = (cookieInformation) => {
           transform: scaleY(-1);
         }
       </style>
-      <li part="${PREFIX}__tab-list-item" role="presentation">
+      <li part="${PREFIX}__tab-list-item" id="${PREFIX}-tab-${index}" aria-controls="${PREFIX}-tabpanel-${index}" role="tab">
         <header part="${PREFIX}__tab" class="${PREFIX}__tab">
           <label part="${PREFIX}__option" class="${PREFIX}__option" data-required="${required}">
             <input
@@ -56,10 +56,8 @@ const DialogTabList = (cookieInformation) => {
           <a
             part="${PREFIX}__tab-toggle"
             class="${PREFIX}__tab-toggle"
-            role="tab"
-            id="${PREFIX}-tab-${index}"
+            id="${PREFIX}-tab"
             href="#${PREFIX}-tabpanel-${index}"
-            aria-controls="${PREFIX}-tabpanel-${index}"
             aria-selected="false"
             aria-label="${Config().get("labels.aria.tabToggle")}">
             <svg part="${PREFIX}__tab-toggle-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 16"><path d="M21.5.5l3 3.057-12 11.943L.5 3.557 3.5.5l9 9z"/></svg>
@@ -95,7 +93,9 @@ const DialogTabList = (cookieInformation) => {
         : undefined,
     }));
     return `
-      <ul part="${PREFIX}__tab-list" class="${PREFIX}__tab-list" role="tablist" aria-label="${Config().get("labels.aria.tabList")}">
+      <ul part="${PREFIX}__tab-list" id="${PREFIX}__tab-list" class="${PREFIX}__tab-list" role="tablist" aria-owns="${PREFIX}-tab" aria-label="${Config().get(
+  "labels.aria.tabList"
+)}">
         ${cookiesWithState.map(renderTab).join("")}
       </ul>
     `;
