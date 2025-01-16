@@ -101,7 +101,7 @@ cookie-consent::part(cookie-consent__option) {
     display: flex;
     flex: 1 1 auto;
     align-items: center;
-    padding: 15px $cookie-consent-horizontal-padding 17px;
+    padding: 15px $cookie-consent-horizontal-padding;
     user-select: none;
     font-size: 0.9em;
 }
@@ -154,6 +154,7 @@ cookie-consent::part(cookie-consent__tab-description) {
     background: rgba($cookie-consent-dark, 0.05);
     font-size: 0.8em;
 }
+
 cookie-consent::part(cookie-consent__tab-description)::after {
     content: "";
     position: absolute;

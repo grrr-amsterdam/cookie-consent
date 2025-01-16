@@ -103,7 +103,7 @@ export const DEFAULTS = {
         },
         aria: {
             button: "Confirm cookie settings",
-            tabList: "List with cookie types",
+            optionList: "List with cookie types",
             tabToggle: "Toggle cookie tab",
         },
     },
