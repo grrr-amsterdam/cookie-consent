@@ -5,17 +5,17 @@ import Config from "./config.mjs";
 import Preferences from "./preferences.mjs";
 
 /**
- * Dialog tab list with cookie tabs.
+ * List with cookie type options.
  */
-const DialogTabList = (cookieInformation) => {
+const DialogOptionList = (cookieInformation) => {
   const events = EventDispatcher();
 
   const PREFIX = Config().get("prefix");
 
   /**
-   * Render cookie tabs.
+   * Render cookie option list.
    */
-  const renderTab = (
+  const renderOptionList = (
     { id, label, description, required, checked, accepted },
     index
   ) => {
@@ -27,22 +27,23 @@ const DialogTabList = (cookieInformation) => {
      *    `required: false`, because of #3)
      * 3. Use the `checked` setting.
      */
-    const shouldBeChecked = typeof accepted !== "undefined"
-      ? accepted
-      : required === true
+    const shouldBeChecked =
+      typeof accepted !== "undefined"
+        ? accepted
+        : required === true
         ? required
         : checked;
 
     return `
       <style>
-        .${PREFIX}__tab-panel[aria-hidden="true"] {
+        .${PREFIX}__tab-panel[data-is-active="false"] {
           display: none;
-        }
-        .cookie-consent__tab-toggle[aria-selected="true"] > svg {
+        } 
+        .${PREFIX}__tab-toggle[aria-expanded="true"] > svg {
           transform: scaleY(-1);
         }
       </style>
-      <li part="${PREFIX}__tab-list-item" role="presentation">
+      <li part="${PREFIX}__tab-list-item">
         <header part="${PREFIX}__tab" class="${PREFIX}__tab">
           <label part="${PREFIX}__option" class="${PREFIX}__option" data-required="${required}">
             <input
@@ -51,32 +52,32 @@ const DialogTabList = (cookieInformation) => {
               name="${PREFIX}-input" value="${id}"
               ${shouldBeChecked ? "checked" : ""}
               ${required && "disabled"}>
-            <span>${label}</span>
+              <span>${label}</span>
           </label>
-          <a
-            part="${PREFIX}__tab-toggle"
-            class="${PREFIX}__tab-toggle"
-            role="tab"
+
+          <button
+            type="button"
             id="${PREFIX}-tab-${index}"
-            href="#${PREFIX}-tabpanel-${index}"
+            class="${PREFIX}__tab-toggle js-option-toggle"
+            part="${PREFIX}__tab-toggle"
             aria-controls="${PREFIX}-tabpanel-${index}"
-            aria-selected="false"
+            aria-expanded="false"
             aria-label="${Config().get("labels.aria.tabToggle")}">
-            <svg part="${PREFIX}__tab-toggle-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 16"><path d="M21.5.5l3 3.057-12 11.943L.5 3.557 3.5.5l9 9z"/></svg>
-          </a>
-        </header>
+            <svg aria-hidden="true" focusable="false" part="${PREFIX}__tab-toggle-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 16"><path d="M21.5.5l3 3.057-12 11.943L.5 3.557 3.5.5l9 9z"/></svg>
+          </button>
+        </header> 
+
         <div
           part="${PREFIX}__tab-panel"
-          class="${PREFIX}__tab-panel"
-          role="tabpanel"
+          class="${PREFIX}__tab-panel js-option-panel"
           id="${PREFIX}-tabpanel-${index}"
-          aria-labelledby="${PREFIX}-tab-${index}"
-          aria-hidden="true">
-          <div
+          data-is-active="false">
+
+          <p
             part="${PREFIX}__tab-description"
             class="${PREFIX}__tab-description">
             ${description}
-          </div>
+          </p>
         </div>
       </li>
     `;
@@ -95,8 +96,10 @@ const DialogTabList = (cookieInformation) => {
         : undefined,
     }));
     return `
-      <ul part="${PREFIX}__tab-list" class="${PREFIX}__tab-list" role="tablist" aria-label="${Config().get("labels.aria.tabList")}">
-        ${cookiesWithState.map(renderTab).join("")}
+      <ul part="${PREFIX}__option-list" class="${PREFIX}__tab-list" aria-label="${Config().get(
+      "labels.aria.optionList"
+    )}">
+        ${cookiesWithState.map(renderOptionList).join("")}
       </ul>
     `;
   };
@@ -104,13 +107,13 @@ const DialogTabList = (cookieInformation) => {
   /**
    * Tab list element.
    */
-  const tabList = htmlToElement(renderTabList());
+  const optionList = htmlToElement(renderTabList());
 
   /**
    * Simple method to get values from cookie checkboxes.
    */
   const getValues = () => {
-    const inputs = [...tabList.querySelectorAll("input")];
+    const inputs = [...optionList.querySelectorAll("input")];
     return inputs.map((input) => ({
       id: input.value,
       accepted: input.checked,
@@ -120,36 +123,46 @@ const DialogTabList = (cookieInformation) => {
   /**
    * Handle tab selection.
    */
-  const selectTab = ({ tabs, panels, targetTab }) => {
-    const controls = targetTab ? targetTab.getAttribute("aria-controls") : "";
-    tabs.forEach((tab) => tab.setAttribute("aria-selected", tab === targetTab));
+  const selectOption = ({ options, panels, targetOption }) => {
+    const controls = targetOption
+      ? targetOption.getAttribute("aria-controls")
+      : "";
+    options.forEach((option) =>
+      option.setAttribute("aria-expanded", option === targetOption)
+    );
+
     panels.forEach((panel) =>
-      panel.setAttribute("aria-hidden", controls !== panel.id));
+      panel.setAttribute("data-is-active", controls === panel.id)
+    );
   };
 
   /**
    * Attach event listener for tab click event.
    */
-  const attachTabClickListeners = () => {
-    const tabs = [...tabList.querySelectorAll('[role="tab"]')];
-    const panels = [...tabList.querySelectorAll('[role="tabpanel"]')];
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", (e) => {
+  const attachOptionClickListeners = () => {
+    const options = [...optionList.querySelectorAll(".js-option-toggle")];
+    const panels = [...optionList.querySelectorAll(".js-option-panel")];
+
+    options.forEach((option) => {
+      option.addEventListener("click", (e) => {
         e.preventDefault();
-        const targetTab = tab.getAttribute("aria-selected") === "true" ? null : tab;
-        selectTab({ tabs, panels, targetTab });
+
+        const targetOption =
+          option.getAttribute("aria-expanded") === "true" ? null : option;
+
+        selectOption({ options, panels, targetOption });
       });
     });
   };
 
   return {
     init() {
-      attachTabClickListeners();
+      attachOptionClickListeners();
     },
     on: events.add,
-    element: tabList,
+    element: optionList,
     getValues,
   };
 };
 
-export default DialogTabList;
+export default DialogOptionList;
