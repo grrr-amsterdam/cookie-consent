@@ -49,8 +49,6 @@ export default class Dialog extends HTMLElement {
     // initialize show and hide
     this.show = this.show();
     this.hide = this.hide();
-    // get all preferences
-    this.preferences.getAll();
 
     this.domToggler.toggle(this.preferences);
 
@@ -71,8 +69,7 @@ export default class Dialog extends HTMLElement {
       saveButtonText: Config().get("labels.aria.button"),
       defaultButtonLabel: Config().get("labels.button.default"),
       acceptAllButton:
-        Config().get("acceptAllButton")
-        && !Preferences().hasPreferences(),
+        Config().get("acceptAllButton") && !Preferences().hasPreferences(),
     };
     // custom content from data-attributes
     const customContent = {
@@ -174,7 +171,6 @@ export default class Dialog extends HTMLElement {
 
     // Dispatch values and hide the dialog.
     this.events.dispatch("submit", values);
-    // toggleDialogVisibility(this.firstElementChild).hide();
     this.hide();
   }
 
@@ -214,7 +210,7 @@ export default class Dialog extends HTMLElement {
   }
 
   initDomToggler() {
-    return DomToggler(Config());
+    return DomToggler(this.cookies);
   }
 
   show() {

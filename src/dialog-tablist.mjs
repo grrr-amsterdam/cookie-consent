@@ -95,7 +95,10 @@ const DialogTabList = (cookieInformation) => {
         : undefined,
     }));
     return `
-      <ul part="${PREFIX}__tab-list" class="${PREFIX}__tab-list" role="tablist" aria-label="${Config().get("labels.aria.tabList")}">
+      <ul part="${PREFIX}__tab-list" 
+        class="${PREFIX}__tab-list" 
+        role="tablist" 
+        aria-label="${Config().get("labels.aria.tabList")}">
         ${cookiesWithState.map(renderTab).join("")}
       </ul>
     `;
