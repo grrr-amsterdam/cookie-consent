@@ -9,16 +9,8 @@ describe("CookieConsent", () => {
 
   const cookieConsent = document.createElement("cookie-consent");
 
-  cookieConsent.cookies = COOKIES;
-
   test("updatePreference", () => {
-    const input = [
-      { id: "foo", accepted: false },
-      { id: "bar", accepted: true },
-    ];
-
-    cookieConsent.updatePreference(input);
-
-    expect(cookieConsent.preferences.getAll("foo")).toEqual(input);
+    cookieConsent.updatePreference(COOKIES);
+    expect(cookieConsent.preferences.getAll()).toEqual(COOKIES);
   });
 });
