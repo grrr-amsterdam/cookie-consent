@@ -1,6 +1,7 @@
 {
   "name": "@grrr/cookie-consent",
   "version": "2.1.2",
+  "types": "index.d.ts",
   "description": "Cookie consent with accessible dialog, agnostic tag triggers and conditional content, script and embed hooks.",
   "keywords": [
     "cookie consent",
