@@ -145,14 +145,14 @@ export default class Dialog extends HTMLElement {
         pointer-events: none;
         transform: translate(0, 100px);
       }
-    </style>`
+    </style>`,
     );
 
     const formElement = dialogElement.lastElementChild;
 
     formElement.addEventListener(
       "submit",
-      preventingDefault(this.submitHandler.bind(this))
+      preventingDefault(this.submitHandler.bind(this)),
     );
 
     dialogElement.insertBefore(this.tabList.element, formElement);
@@ -182,9 +182,9 @@ export default class Dialog extends HTMLElement {
     const checkedCount = values.filter((v) => v.accepted).length;
     const userOptionsChecked = checkedCount >= requiredCount;
     if (
-      this.data.acceptAllButton
-      && this.config.type === "checkbox"
-      && !userOptionsChecked
+      this.data.acceptAllButton &&
+      this.config.type === "checkbox" &&
+      !userOptionsChecked
     ) {
       return values.map((value) => ({
         ...value,
@@ -242,12 +242,13 @@ export default class Dialog extends HTMLElement {
     const arrayfiedTabList = Array.from(this.tabList.element.children);
     // Filter out all li elements
     const tabListChildren = arrayfiedTabList.filter(
-      (item) => item.nodeName === "LI"
+      (item) => item.nodeName === "LI",
     );
     // Loop through arrayfiedTabListChildren
     tabListChildren.forEach((input) => {
       // Find all input elements
-      const inputElement = input.firstElementChild.firstElementChild.firstElementChild;
+      const inputElement =
+        input.firstElementChild.firstElementChild.firstElementChild;
       // Loop through updated cookies
       this.cookies.forEach((cookie) => {
         // set the checked state to the updated cookie state

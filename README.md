@@ -215,7 +215,7 @@ cookieConsent.on("update", (cookies) => {
         dataLayer.push({
             event: "cookieConsent",
             cookieType: cookie.id,
-        })
+        }),
     );
 });
 ```
