@@ -17,7 +17,7 @@ const DialogTabList = (cookieInformation) => {
    */
   const renderTab = (
     { id, label, description, required, checked, accepted },
-    index,
+    index
   ) => {
     /**
      * Check if the checkbox should be checked:
@@ -27,12 +27,11 @@ const DialogTabList = (cookieInformation) => {
      *    `required: false`, because of #3)
      * 3. Use the `checked` setting.
      */
-    const shouldBeChecked =
-      typeof accepted !== "undefined"
-        ? accepted
-        : required === true
-          ? required
-          : checked;
+    const shouldBeChecked = typeof accepted !== "undefined"
+      ? accepted
+      : required === true
+        ? required
+        : checked;
 
     return `
       <style>
@@ -128,8 +127,7 @@ const DialogTabList = (cookieInformation) => {
     const controls = targetTab ? targetTab.getAttribute("aria-controls") : "";
     tabs.forEach((tab) => tab.setAttribute("aria-selected", tab === targetTab));
     panels.forEach((panel) =>
-      panel.setAttribute("aria-hidden", controls !== panel.id),
-    );
+      panel.setAttribute("aria-hidden", controls !== panel.id));
   };
 
   /**
@@ -141,8 +139,7 @@ const DialogTabList = (cookieInformation) => {
     tabs.forEach((tab) => {
       tab.addEventListener("click", (e) => {
         e.preventDefault();
-        const targetTab =
-          tab.getAttribute("aria-selected") === "true" ? null : tab;
+        const targetTab = tab.getAttribute("aria-selected") === "true" ? null : tab;
         selectTab({ tabs, panels, targetTab });
       });
     });
