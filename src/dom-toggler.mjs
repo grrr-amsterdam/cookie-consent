@@ -29,7 +29,7 @@ const DomToggler = (cookieData) => {
       return;
     }
     const scripts = document.documentElement.querySelectorAll(
-      `script[${GENERAL_ATTRIBUTE}="${id}"]`,
+      `script[${GENERAL_ATTRIBUTE}="${id}"]`
     );
     [...scripts].forEach((script) => {
       appendScript(script);
@@ -64,7 +64,7 @@ const DomToggler = (cookieData) => {
    */
   const toggleConditionalIframes = ({ id, accepted }) => {
     const iframes = document.body.querySelectorAll(
-      `iframe[${GENERAL_ATTRIBUTE}="${id}"]`,
+      `iframe[${GENERAL_ATTRIBUTE}="${id}"]`
     );
     [...iframes].forEach((el) => (accepted ? showIframe(el) : hideIframe(el)));
   };
@@ -90,17 +90,15 @@ const DomToggler = (cookieData) => {
    */
   const toggleConditionalElements = ({ id, accepted }) => {
     const accepts = document.body.querySelectorAll(
-      `[${ACCEPTED_STATE_ATTRIBUTE}="${id}"]`,
+      `[${ACCEPTED_STATE_ATTRIBUTE}="${id}"]`
     );
     const rejects = document.body.querySelectorAll(
-      `[${REJECTED_STATE_ATTRIBUTE}="${id}"]`,
+      `[${REJECTED_STATE_ATTRIBUTE}="${id}"]`
     );
     [...accepts].forEach((el) =>
-      accepted ? showElement(el) : hideElement(el),
-    );
+      accepted ? showElement(el) : hideElement(el));
     [...rejects].forEach((el) =>
-      accepted ? hideElement(el) : showElement(el),
-    );
+      accepted ? hideElement(el) : showElement(el));
   };
 
   return {

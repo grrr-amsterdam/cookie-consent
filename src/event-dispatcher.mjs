@@ -2,6 +2,7 @@
  * Register event listeners and dispatch events.
  */
 const EventDispatcher = () => {
+
   const listeners = {};
   const queue = {};
 
@@ -10,9 +11,9 @@ const EventDispatcher = () => {
    */
   const dispatch = (type, payload) => {
     if (listeners[type]) {
-      listeners[type].forEach((fn) => fn(payload));
+      listeners[type].forEach(fn => fn(payload));
     } else {
-      queue[type] = [...(queue[type] || []), payload];
+      queue[type] = [...queue[type] || [], payload];
     }
   };
 
@@ -20,9 +21,9 @@ const EventDispatcher = () => {
    * Store listener with callback function per type. Invoke the queue if it exists.
    */
   const add = (type, fn) => {
-    listeners[type] = [...(listeners[type] || []), fn];
+    listeners[type] = [...listeners[type] || [], fn];
     if (queue[type]) {
-      queue[type].forEach((payload) => dispatch(type, payload));
+      queue[type].forEach(payload => dispatch(type, payload));
       delete queue[type];
     }
   };
@@ -32,6 +33,7 @@ const EventDispatcher = () => {
     dispatch,
     listeners,
   };
+
 };
 
 export default EventDispatcher;
